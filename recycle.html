@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recycle & Earn | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">VERIFIED RECYCLING WORKFLOW</span>
+            <h1 style="margin-top: 10px;">Recycle & Earn MSTC Points</h1>
+            <p class="muted">Follow 4 verified steps to turn scrap materials into guaranteed digital rewards.</p>
+        </div>
+
+        <div class="user-chip">
+            <span class="user-pts">Balance: <span id="currentPointsTop">1,250</span> MSTC</span>
+            <span class="user-val" id="currentRewardValTop">₹125.00</span>
+        </div>
+    </div>
+
+    <!-- STEP WIZARD BAR -->
+    <div class="step-wizard">
+        <div class="step-item active" id="stepIndicator1">
+            <div class="step-bubble">1</div>
+            <div class="step-title">Select Waste</div>
+        </div>
+        <div class="step-item" id="stepIndicator2">
+            <div class="step-bubble">2</div>
+            <div class="step-title">Enter Weight</div>
+        </div>
+        <div class="step-item" id="stepIndicator3">
+            <div class="step-bubble">3</div>
+            <div class="step-title">Select Center</div>
+        </div>
+        <div class="step-item" id="stepIndicator4">
+            <div class="step-bubble">4</div>
+            <div class="step-title">QR Verify</div>
+        </div>
+    </div>
+
+    <!-- WORKFLOW CONTENT -->
+    <div class="grid grid-3">
+        <!-- MAIN WIZARD COLUMN (2 COLS) -->
+        <div class="card" style="grid-column: span 2;">
+            <!-- STEP 1: SELECT WASTE CATEGORY -->
+            <div id="stepSection1">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h2 style="font-size:1.4rem; margin:0;">Step 1: Choose Recyclable Waste Category</h2>
+                    <span class="badge-verified">Select 1 Category</span>
+                </div>
+                <p class="muted" style="margin-bottom:20px; font-size:0.88rem;">Each category has verified conversion rates per kilogram.</p>
+
+                <div class="selection-grid" id="categorySelectionGrid">
+                    <!-- Populated via data.js -->
+                </div>
+
+                <div style="margin-top: 24px; display:flex; justify-content:flex-end;">
+                    <button type="button" class="gradient-button" id="btnGoToStep2" onclick="goToStep(2)" disabled>
+                        Continue to Weight & Quantity →
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2: ENTER WEIGHT -->
+            <div id="stepSection2" style="display: none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h2 style="font-size:1.4rem; margin:0;">Step 2: Enter Certified Scale Weight</h2>
+                    <span class="badge-verified" id="selectedCategoryBadge">Category: Metal (15 MSTC/kg)</span>
+                </div>
+                <p class="muted" style="margin-bottom:20px; font-size:0.88rem;">Enter the weight in kilograms. Weight will be certified at the collection center scale.</p>
+
+                <div class="form-group" style="margin-bottom: 24px;">
+                    <label for="wasteWeightInput">Material Weight (kg)</label>
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <input type="number" id="wasteWeightInput" placeholder="e.g. 2.0" step="0.1" min="0.1" max="500" value="2.0" oninput="updateCalculationPreview()" style="font-size: 1.3rem; font-weight: 700; color: var(--green);">
+                        <span style="font-size: 1.2rem; font-weight: 700; color: var(--text-secondary);">KG</span>
+                    </div>
+                </div>
+
+                <!-- QUICK WEIGHT SELECTOR CHIPS -->
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;">
+                    <button type="button" class="outline-button btn-sm" onclick="setQuickWeight(0.5)">0.5 kg</button>
+                    <button type="button" class="outline-button btn-sm" onclick="setQuickWeight(1.0)">1.0 kg</button>
+                    <button type="button" class="outline-button btn-sm" onclick="setQuickWeight(2.0)">2.0 kg</button>
+                    <button type="button" class="outline-button btn-sm" onclick="setQuickWeight(5.0)">5.0 kg</button>
+                    <button type="button" class="outline-button btn-sm" onclick="setQuickWeight(10.0)">10.0 kg</button>
+                </div>
+
+                <!-- LIVE ESTIMATE CALCULATION BOX -->
+                <div class="reward-result" style="background: rgba(4, 18, 12, 0.7); border-color: rgba(57, 217, 138, 0.3);">
+                    <div>
+                        <span>Selected Material:</span>
+                        <strong id="calcCatName" style="color: var(--text-primary);">Metal</strong>
+                    </div>
+                    <div>
+                        <span>Reward Rate:</span>
+                        <strong id="calcRateText">15 MSTC / kg</strong>
+                    </div>
+                    <div>
+                        <span>Verified Weight:</span>
+                        <strong id="calcWeightText">2.0 kg</strong>
+                    </div>
+                    <div class="reward-total">
+                        <span style="font-size: 1.1rem; color: #fff;">Estimated Reward:</span>
+                        <strong style="font-size: 1.4rem;" id="calcTotalPoints">+30 MSTC Points (₹3.00)</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px; display:flex; justify-content:space-between;">
+                    <button type="button" class="outline-button" onclick="goToStep(1)">← Back</button>
+                    <button type="button" class="gradient-button" onclick="goToStep(3)">Select Collection Point →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: SELECT COLLECTION CENTER -->
+            <div id="stepSection3" style="display: none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h2 style="font-size:1.4rem; margin:0;">Step 3: Select Nearby Authorized Hub</h2>
+                    <span class="badge-verified">Verified Locations</span>
+                </div>
+                <p class="muted" style="margin-bottom:20px; font-size:0.88rem;">Select the collection hub where you are depositing your material.</p>
+
+                <div class="selection-grid" id="centerSelectionGrid">
+                    <!-- Populated via data.js -->
+                </div>
+
+                <div style="margin-top: 24px; display:flex; justify-content:space-between;">
+                    <button type="button" class="outline-button" onclick="goToStep(2)">← Back</button>
+                    <button type="button" class="gradient-button" id="btnGoToStep4" onclick="goToStep(4)" disabled>Proceed to QR Verification →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: QR SCANNER SIMULATION -->
+            <div id="stepSection4" style="display: none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                    <h2 style="font-size:1.4rem; margin:0;">Step 4: Collection Point QR Verification</h2>
+                    <span class="badge-verified">Digital Handoff</span>
+                </div>
+                <p class="muted" style="font-size:0.88rem;">Scan the collection station QR code to cryptographically authenticate your drop-off.</p>
+
+                <div id="qrScannerArea">
+                    <div class="qr-scanner-box">
+                        <div class="qr-laser" id="qrLaser"></div>
+                        <div class="qr-frame-corners"></div>
+                        <div style="font-size: 4rem; opacity: 0.85;">📱</div>
+                        <span style="font-size: 0.75rem; color: var(--green); margin-top: 8px;" id="qrStatusText">Ready for scan</span>
+                    </div>
+
+                    <div style="text-align: center; margin: 18px 0;">
+                        <button type="button" class="gradient-button" id="btnTriggerScan" onclick="simulateQRScan()" style="padding: 12px 32px; font-size: 1.05rem;">
+                            📷 Click to Scan QR Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VERIFIED RESULT PANEL (Initially hidden) -->
+                <div id="qrVerifiedCard" style="display:none; margin-top:20px; padding:20px; border-radius:16px; background:rgba(18, 45, 30, 0.85); border:1px solid var(--green);">
+                    <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+                        <div style="width:42px; height:42px; border-radius:50%; background:var(--green); color:#04150d; display:grid; place-items:center; font-size:1.4rem; font-weight:bold;">✓</div>
+                        <div>
+                            <h3 style="margin:0; color:#fff; font-size:1.15rem;">Collection Point QR Authenticated</h3>
+                            <span style="font-size:0.8rem; color:var(--cyan); font-family:monospace;" id="verifiedQrHash">Token: QR-AUTH-BLR-001-VERIFIED</span>
+                        </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.85rem; padding:12px; background:rgba(0,0,0,0.3); border-radius:12px;">
+                        <div>Center: <strong id="summaryCenterName" style="color:var(--text-primary);">GreenCycle Bengaluru</strong></div>
+                        <div>Material: <strong id="summaryCatName" style="color:var(--green);">Metal</strong></div>
+                        <div>Weight: <strong id="summaryWeight" style="color:var(--text-primary);">2.0 kg</strong></div>
+                        <div>Points to credit: <strong id="summaryPoints" style="color:var(--green);">+30 MSTC</strong></div>
+                    </div>
+
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button type="button" class="gradient-button" id="btnFinalVerify" onclick="executeFinalRecycling()" style="width:100%; justify-content:center; padding:14px; font-size:1.1rem;">
+                            ♻️ Complete & Verify Recycling (+30 MSTC)
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px; display:flex; justify-content:space-between;">
+                    <button type="button" class="outline-button" onclick="goToStep(3)">← Back</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIDE SUMMARY & REWARD RATE GUIDE (1 COL) -->
+        <div style="display:flex; flex-direction:column; gap:18px;">
+            <div class="card">
+                <span class="eyebrow">REWARD RATES GUIDE</span>
+                <h3 style="margin:14px 0 8px;">Configured MSTC Rates</h3>
+                <div style="display:flex; flex-direction:column; gap:8px; font-size:0.85rem; margin-top:12px;" id="sideRatesList">
+                    <!-- Populated via data.js -->
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="eyebrow" style="color:var(--cyan); border-color:rgba(98, 220, 228, 0.3);">ANTI-FRAUD PROTECTION</span>
+                <h3 style="margin:12px 0 6px; font-size:1.05rem;">Verified Digital Ledger</h3>
+                <ul style="padding-left:18px; margin:0; font-size:0.82rem; color:var(--text-secondary); line-height:1.7;">
+                    <li>Geofenced QR verification prevents unauthorized credits.</li>
+                    <li>Digital scale calibration matches category limits.</li>
+                    <li>Each drop produces an immutable transaction hash.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- SUCCESS MODAL POPUP -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal-box" style="text-align: center;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(145deg, #39d98a, #20bd72); color: #051d13; display: grid; place-items: center; font-size: 2.4rem; margin: 0 auto 16px; box-shadow: 0 0 35px rgba(57, 217, 138, 0.5);">
+            ♻️
+        </div>
+
+        <span class="eyebrow" style="background: rgba(57, 217, 138, 0.15);">RECYCLING VERIFIED ON-CHAIN</span>
+        <h2 style="margin: 14px 0 6px; font-size: 2rem; color: #fff;">
+            +<span id="modalEarnedPoints">30</span> MSTC Points
+        </h2>
+        <p style="color: var(--cyan); font-weight: 700; font-size: 1.15rem; margin-bottom: 20px;" id="modalRewardValue">
+            Added ₹3.00 Reward Value
+        </p>
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 24px; text-align: left; font-size: 0.85rem;">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Transaction ID:</span>
+                <span style="font-family: monospace; color: var(--green);" id="modalTxId">TX-MSTC-89211</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Block Hash:</span>
+                <span style="font-family: monospace; color: var(--cyan);" id="modalBlockHash">0x4e78...d912</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Center:</span>
+                <span id="modalCenterName">GreenCycle Hub Bengaluru</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">New MSTC Balance:</span>
+                <strong style="color: var(--text-primary);" id="modalNewBalance">1,280 MSTC (₹128.00)</strong>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+            <a href="dashboard.html" class="gradient-button" style="flex:1; justify-content:center;">Go to Dashboard</a>
+            <a href="wallet.html" class="outline-button" style="flex:1; justify-content:center;">View Wallet</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let selectedCategoryId = "metal";
+    let selectedCenterId = "MSTC-BLR-001";
+    let currentWeight = 2.0;
+
+    function renderCategories() {
+        const grid = document.getElementById("categorySelectionGrid");
+        if (!grid || typeof WASTE_CATEGORIES === "undefined") return;
+
+        grid.innerHTML = WASTE_CATEGORIES.map(cat => `
+            <div class="select-card ${cat.id === selectedCategoryId ? 'selected' : ''}" onclick="selectCategory('${cat.id}')">
+                <div class="card-top">
+                    <div class="category-icon" style="font-size:1.4rem;">${cat.icon}</div>
+                    <span class="rate-tag">${cat.rate} MSTC / kg</span>
+                </div>
+                <div>
+                    <strong style="font-size:1.02rem; display:block; margin-bottom:4px;">${cat.name}</strong>
+                    <p style="font-size:0.78rem; color:var(--text-secondary); margin:0;">${cat.description}</p>
+                </div>
+            </div>
+        `).join("");
+
+        const sideRates = document.getElementById("sideRatesList");
+        if (sideRates) {
+            sideRates.innerHTML = WASTE_CATEGORIES.map(c => `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span>${c.icon} ${c.name}</span>
+                    <strong style="color:var(--green);">${c.rate} MSTC/kg</strong>
+                </div>
+            `).join("");
+        }
+    }
+
+    function renderCenters() {
+        const grid = document.getElementById("centerSelectionGrid");
+        if (!grid || typeof COLLECTION_CENTERS === "undefined") return;
+
+        grid.innerHTML = COLLECTION_CENTERS.map(ctr => `
+            <div class="select-card ${ctr.id === selectedCenterId ? 'selected' : ''}" onclick="selectCenter('${ctr.id}')">
+                <div class="card-top">
+                    <span class="badge-verified">⭐ ${ctr.rating}</span>
+                    <span style="font-size:0.75rem; color:var(--cyan); font-family:monospace;">${ctr.id}</span>
+                </div>
+                <div>
+                    <strong style="font-size:1.02rem; display:block; margin-bottom:4px;">${ctr.name}</strong>
+                    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:6px;">📍 ${ctr.address}</p>
+                    <span style="font-size:0.75rem; color:var(--green);">🕒 ${ctr.hours}</span>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function selectCategory(catId) {
+        selectedCategoryId = catId;
+        renderCategories();
+        document.getElementById("btnGoToStep2").disabled = false;
+        updateCalculationPreview();
+    }
+
+    function selectCenter(ctrId) {
+        selectedCenterId = ctrId;
+        renderCenters();
+        document.getElementById("btnGoToStep4").disabled = false;
+    }
+
+    function setQuickWeight(w) {
+        document.getElementById("wasteWeightInput").value = w;
+        updateCalculationPreview();
+    }
+
+    function updateCalculationPreview() {
+        const input = document.getElementById("wasteWeightInput");
+        currentWeight = parseFloat(input.value) || 0;
+
+        const cat = (typeof WASTE_CATEGORIES !== "undefined" ? WASTE_CATEGORIES : []).find(c => c.id === selectedCategoryId) || { name: "Metal", rate: 15 };
+        const points = Math.round(currentWeight * cat.rate);
+        const rupees = (points / 10).toFixed(2);
+
+        document.getElementById("selectedCategoryBadge").textContent = `Category: ${cat.name} (${cat.rate} MSTC/kg)`;
+        document.getElementById("calcCatName").textContent = cat.name;
+        document.getElementById("calcRateText").textContent = `${cat.rate} MSTC / kg`;
+        document.getElementById("calcWeightText").textContent = `${currentWeight} kg`;
+        document.getElementById("calcTotalPoints").textContent = `+${points} MSTC Points (₹${rupees})`;
+
+        // Step 4 summaries
+        document.getElementById("summaryCatName").textContent = cat.name;
+        document.getElementById("summaryWeight").textContent = `${currentWeight} kg`;
+        document.getElementById("summaryPoints").textContent = `+${points} MSTC`;
+        const ctr = (typeof COLLECTION_CENTERS !== "undefined" ? COLLECTION_CENTERS : []).find(c => c.id === selectedCenterId);
+        if (ctr) document.getElementById("summaryCenterName").textContent = ctr.name;
+    }
+
+    function goToStep(stepNumber) {
+        for (let i = 1; i <= 4; i++) {
+            const sec = document.getElementById(`stepSection${i}`);
+            const ind = document.getElementById(`stepIndicator${i}`);
+            if (sec) sec.style.display = (i === stepNumber) ? "block" : "none";
+            if (ind) {
+                ind.classList.remove("active", "done");
+                if (i === stepNumber) ind.classList.add("active");
+                else if (i < stepNumber) ind.classList.add("done");
+            }
+        }
+        updateCalculationPreview();
+    }
+
+    function simulateQRScan() {
+        const btn = document.getElementById("btnTriggerScan");
+        const status = document.getElementById("qrStatusText");
+        btn.disabled = true;
+        btn.textContent = "Scanning Station Code...";
+        status.textContent = "Authenticating station cryptographic token...";
+        status.style.color = "var(--cyan)";
+
+        setTimeout(() => {
+            status.textContent = "QR Verified ✓";
+            status.style.color = "var(--green)";
+            btn.style.display = "none";
+            document.getElementById("qrVerifiedCard").style.display = "block";
+            showToast("QR Verified Successfully: " + (selectedCenterId), "success");
+        }, 1200);
+    }
+
+    function executeFinalRecycling() {
+        const res = processRecycling({
+            categoryId: selectedCategoryId,
+            weight: currentWeight,
+            centerId: selectedCenterId
+        });
+
+        if (!res.success) {
+            showToast(res.message, "error");
+            return;
+        }
+
+        // Show Success Modal
+        document.getElementById("modalEarnedPoints").textContent = res.pointsEarned;
+        document.getElementById("modalRewardValue").textContent = `Added ₹${res.rewardVal.toFixed(2)} Platform Reward Value`;
+        document.getElementById("modalTxId").textContent = res.transaction.id;
+        document.getElementById("modalBlockHash").textContent = res.transaction.blockHash;
+        document.getElementById("modalCenterName").textContent = res.transaction.centerName;
+        document.getElementById("modalNewBalance").textContent = `${res.totalBalance.toLocaleString()} MSTC (₹${res.totalRewardValue.toFixed(2)})`;
+
+        document.getElementById("successModal").classList.add("active");
+        showToast(`+${res.pointsEarned} MSTC Credited to Wallet!`, "success");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("recycle");
+        renderCategories();
+        renderCenters();
+        selectCategory("metal");
+        selectCenter("MSTC-BLR-001");
+
+        document.getElementById("currentPointsTop").textContent = (user.mstcPoints || 0).toLocaleString();
+        document.getElementById("currentRewardValTop").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+    });
+</script>
+</body>
+</html>

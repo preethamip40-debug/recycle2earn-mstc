@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Waste Passport | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">DIGITAL CIRCULAR IDENTITY</span>
+            <h1 style="margin-top: 10px;">Smart Waste Passport</h1>
+            <p class="muted">Your official environmental footprint ledger, material breakdown and verified impact metrics.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="gradient-button btn-sm" onclick="showCertificateModal()">📜 View Official Certificate</button>
+            <a href="recycle.html" class="outline-button btn-sm">+ Recycle Waste</a>
+        </div>
+    </div>
+
+    <!-- PASSPORT OVERVIEW HERO -->
+    <section class="wallet-card" style="margin-bottom: 28px;">
+        <div style="display:grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 24px; align-items: center;">
+            <div>
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <span class="eyebrow" style="background:rgba(57,217,138,0.2);">VERIFIED PASSPORT HOLDER</span>
+                    <span class="blockchain-badge" id="passIdTag">MST-PID-78291</span>
+                </div>
+                <h2 style="font-size: 2.2rem; margin: 6px 0; color: #fff;" id="passHolderName">Arjun Sharma</h2>
+                <p class="muted" style="font-size:0.9rem; margin-bottom:14px;" id="passDetailsLine">
+                    Bangalore Hub • Active since August 2026 • 5-Day Streak
+                </p>
+
+                <div style="display:flex; gap:20px; flex-wrap:wrap; font-size:0.9rem;">
+                    <div>
+                        <span style="color:var(--text-secondary); display:block; font-size:0.75rem;">TOTAL WASTE DIVERTED</span>
+                        <strong style="color:var(--green); font-size:1.4rem;" id="heroTotalKg">48.5 KG</strong>
+                    </div>
+                    <div style="padding-left:16px; border-left:1px solid var(--border);">
+                        <span style="color:var(--text-secondary); display:block; font-size:0.75rem;">LIFETIME MSTC EARNED</span>
+                        <strong style="color:var(--cyan); font-size:1.4rem;" id="heroTotalPts">1,450</strong>
+                    </div>
+                    <div style="padding-left:16px; border-left:1px solid var(--border);">
+                        <span style="color:var(--text-secondary); display:block; font-size:0.75rem;">REWARD VALUE</span>
+                        <strong style="color:#f5a623; font-size:1.4rem;" id="heroTotalVal">₹145.00</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASSPORT QR BADGE -->
+            <div style="text-align: center; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 18px; padding: 20px;">
+                <div style="width: 110px; height: 110px; margin: 0 auto 12px; background: #fff; padding: 8px; border-radius: 12px; display: grid; place-items: center;">
+                    <!-- Simulated Passport QR -->
+                    <div style="width:100%; height:100%; background:repeating-linear-gradient(45deg, #07100c, #07100c 8px, #fff 8px, #fff 16px); border-radius: 6px;"></div>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--green); font-family: monospace;">QR-MST-PASS-78291-VALID</span>
+                <span style="display: block; font-size: 0.72rem; color: var(--text-secondary); margin-top: 4px;">Cryptographically Signed by MSTC Network</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 ENVIRONMENTAL IMPACT METRICS -->
+    <section class="stats-grid" style="margin-bottom: 28px;">
+        <div class="stat-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="label">CO₂ EMISSIONS AVOIDED</div>
+                <span>🌱</span>
+            </div>
+            <div class="number" id="statCo2" style="color: var(--green);">72.8 KG</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Greenhouse gases diverted</p>
+        </div>
+
+        <div class="stat-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="label">TREES EQUIVALENT</div>
+                <span>🌳</span>
+            </div>
+            <div class="number" id="statTrees" style="color: var(--cyan);">3.4 TREES</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Carbon absorption value</p>
+        </div>
+
+        <div class="stat-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="label">ENERGY CONSERVED</div>
+                <span>⚡</span>
+            </div>
+            <div class="number" id="statEnergy" style="color: #f5a623;">242.5 kWh</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Saved virgin manufacturing</p>
+        </div>
+
+        <div class="stat-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="label">WATER SAVED</div>
+                <span>💧</span>
+            </div>
+            <div class="number" id="statWater" style="color: #62dce4;">1,576 L</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Industrial water conserved</p>
+        </div>
+    </section>
+
+    <!-- CHARTS ROW -->
+    <section class="grid grid-3" style="margin-bottom: 28px;">
+        <!-- DOUGHNUT CHART -->
+        <div class="card" style="grid-column: span 1;">
+            <span class="eyebrow">COMPOSITION</span>
+            <h3 style="margin: 10px 0 16px;">Waste by Material (kg)</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="categoryDoughnutChart"></canvas>
+            </div>
+        </div>
+
+        <!-- BAR CHART -->
+        <div class="card" style="grid-column: span 2;">
+            <span class="eyebrow" style="color: var(--cyan);">REWARD GENERATION</span>
+            <h3 style="margin: 10px 0 16px;">Points Generated per Waste Category</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="pointsBarChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPLETE 9-CATEGORY AUDIT TABLE -->
+    <section class="card">
+        <div class="section-header" style="margin-bottom: 16px;">
+            <div>
+                <h2>Complete 9-Category Recycling Breakdown</h2>
+                <p style="font-size: 0.85rem;">Official registry of cumulative kilograms and reward points credited across each grade.</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Configured Rate</th>
+                        <th>Total Recycled (kg)</th>
+                        <th>% of Your Total</th>
+                        <th>MSTC Points Earned</th>
+                        <th>CO₂ Avoided</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryBreakdownTable">
+                    <!-- Populated via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<!-- CERTIFICATE MODAL -->
+<div class="modal-overlay" id="certificateModal">
+    <div class="modal-box" style="width: min(100%, 650px); background: linear-gradient(145deg, #071911, #040d09); border: 2px solid var(--green);">
+        <button class="modal-close" onclick="closeCertificateModal()">✕</button>
+
+        <div style="text-align: center; border: 1px dashed rgba(57, 217, 138, 0.4); padding: 28px; border-radius: 16px;">
+            <div style="font-size: 2.6rem; margin-bottom: 10px;">♻️</div>
+            <span class="eyebrow" style="letter-spacing: 2px;">OFFICIAL SUSTAINABILITY CERTIFICATE</span>
+            <h2 style="font-size: 1.8rem; margin: 12px 0 4px; color: #fff;">Certificate of Environmental Excellence</h2>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">Issued by Recycle2Earn Platform • MSTC Circular Rewards Consortium</p>
+
+            <div style="margin: 24px 0; padding: 18px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                <p style="font-size: 0.95rem; margin-bottom: 8px;">This certifies that</p>
+                <h3 style="font-size: 1.6rem; color: var(--green); margin: 0;" id="certHolderName">Arjun Sharma</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px;">
+                    has responsibly recycled <strong style="color: #fff;" id="certTotalKg">48.5 kg</strong> of domestic and electronic waste, conserving <strong style="color: var(--cyan);" id="certTotalCo2">72.8 kg of CO₂</strong> emissions.
+                </p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; font-size: 0.78rem; text-align: left; border-top: 1px solid var(--border); padding-top: 16px;">
+                <div>
+                    <span style="color:var(--text-secondary); display:block;">Certificate ID:</span>
+                    <strong style="font-family: monospace; color: var(--green);">CERT-MSTC-2026-98102</strong>
+                </div>
+                <div>
+                    <span style="color:var(--text-secondary); display:block;">Verification Timestamp:</span>
+                    <strong style="color:#fff;">2026-09-29 01:25 UTC</strong>
+                </div>
+                <div style="text-align: right;">
+                    <span style="color:var(--green); font-weight:bold;">✓ Cryptographically Verified</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; display:flex; justify-content:center; gap:12px;">
+            <button class="gradient-button btn-sm" onclick="window.print()">🖨️ Print / Save PDF</button>
+            <button class="outline-button btn-sm" onclick="closeCertificateModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let doughnutChart = null;
+    let barChart = null;
+
+    function renderPassport() {
+        const user = getCurrentUser();
+        if (!user) return;
+
+        document.getElementById("passHolderName").textContent = user.name;
+        document.getElementById("passIdTag").textContent = `MST-PID-${user.id ? user.id.replace('USR-MSTC-','') : '78291'}`;
+        document.getElementById("passDetailsLine").textContent = `Verified Citizen • Member since ${user.joinedDate || 'Aug 2026'} • ${user.streak || 1}-Day Streak`;
+
+        document.getElementById("heroTotalKg").textContent = `${(user.totalWaste || 0).toFixed(1)} KG`;
+        document.getElementById("heroTotalPts").textContent = (user.totalEarnedPoints || user.mstcPoints || 0).toLocaleString();
+        document.getElementById("heroTotalVal").textContent = `₹${((user.totalEarnedPoints || user.mstcPoints || 0) / 10).toFixed(2)}`;
+
+        // Environmental Impact
+        const impact = calculateEnvironmentalImpact(user);
+        document.getElementById("statCo2").textContent = `${impact.co2Kg} KG`;
+        document.getElementById("statTrees").textContent = `${impact.trees} TREES`;
+        document.getElementById("statEnergy").textContent = `${impact.energyKwh} kWh`;
+        document.getElementById("statWater").textContent = `${Number(impact.waterL).toLocaleString()} L`;
+
+        // Certificate modal data
+        document.getElementById("certHolderName").textContent = user.name;
+        document.getElementById("certTotalKg").textContent = `${(user.totalWaste || 0).toFixed(1)} kg`;
+        document.getElementById("certTotalCo2").textContent = `${impact.co2Kg} kg of CO₂`;
+
+        // 9-Category Breakdown Table
+        const breakdown = user.categoryBreakdown || {};
+        const totalKg = user.totalWaste || 1;
+        const tbody = document.getElementById("categoryBreakdownTable");
+
+        const cats = (typeof WASTE_CATEGORIES !== "undefined") ? WASTE_CATEGORIES : [];
+        const labels = [];
+        const weights = [];
+        const pointsArray = [];
+        const colors = [];
+
+        tbody.innerHTML = cats.map(cat => {
+            const kg = breakdown[cat.id] || 0;
+            const pct = totalKg > 0 ? ((kg / totalKg) * 100).toFixed(1) : "0.0";
+            const pts = Math.round(kg * cat.rate);
+            const co2 = (kg * (cat.co2Factor || 1.2)).toFixed(1);
+
+            labels.push(cat.name);
+            weights.push(kg);
+            pointsArray.push(pts);
+            colors.push(cat.color || "#39d98a");
+
+            return `
+                <tr>
+                    <td><strong>${cat.icon} ${cat.name}</strong></td>
+                    <td style="color:var(--text-secondary);">${cat.rate} MSTC/kg</td>
+                    <td style="font-weight:750; color:#fff;">${kg.toFixed(1)} kg</td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <div style="flex:1; height:6px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden;">
+                                <div style="width:${pct}%; height:100%; background:${cat.color || 'var(--green)'}; border-radius:999px;"></div>
+                            </div>
+                            <span style="font-size:0.75rem; color:var(--text-secondary); width:38px;">${pct}%</span>
+                        </div>
+                    </td>
+                    <td style="color:var(--green); font-weight:750;">+${pts} MSTC</td>
+                    <td style="color:var(--cyan);">${co2} kg</td>
+                    <td><span class="badge-verified">${kg > 0 ? 'Active' : 'Unused'}</span></td>
+                </tr>
+            `;
+        }).join("");
+
+        // Render Chart.js Visualizations
+        renderCharts(labels, weights, pointsArray, colors);
+    }
+
+    function renderCharts(labels, weights, pointsArray, colors) {
+        // Doughnut Chart
+        const ctxDoughnut = document.getElementById("categoryDoughnutChart");
+        if (ctxDoughnut) {
+            if (doughnutChart) doughnutChart.destroy();
+            doughnutChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: weights,
+                        backgroundColor: colors,
+                        borderWidth: 2,
+                        borderColor: '#0b1712'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: '#9aaba2', boxWidth: 10, font: { size: 10 } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // Bar Chart
+        const ctxBar = document.getElementById("pointsBarChart");
+        if (ctxBar) {
+            if (barChart) barChart.destroy();
+            barChart = new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: labels.map(l => l.split(" ")[0]),
+                    datasets: [{
+                        label: 'MSTC Points Earned',
+                        data: pointsArray,
+                        backgroundColor: '#39d98a',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9aaba2' } },
+                        x: { grid: { display: false }, ticks: { color: '#9aaba2' } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    }
+
+    function showCertificateModal() {
+        document.getElementById("certificateModal").classList.add("active");
+    }
+
+    function closeCertificateModal() {
+        document.getElementById("certificateModal").classList.remove("active");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("passport");
+        renderPassport();
+    });
+</script>
+</body>
+</html>

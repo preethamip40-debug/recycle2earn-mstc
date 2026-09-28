@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile & DTH Recharge | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">REWARD REDEMPTION</span>
+            <h1 style="margin-top: 10px;">Mobile, Data & DTH Recharge</h1>
+            <p class="muted">Use your verified MSTC Points to recharge prepaid mobile and entertainment services.</p>
+        </div>
+
+        <div class="user-chip">
+            <span class="user-pts">Your Balance: <strong id="rechargeUserPts">1,250</strong> MSTC</span>
+            <span class="user-val" id="rechargeUserVal">₹125.00</span>
+        </div>
+    </div>
+
+    <!-- MAIN RECHARGE INTERFACE -->
+    <div class="grid grid-3">
+        <!-- FORM COLUMN (2 COLS) -->
+        <div class="card" style="grid-column: span 2;">
+            <!-- SERVICE TABS -->
+            <div class="tab-bar">
+                <button class="tab-btn active" id="tabMobile" onclick="switchService('mobile')">📱 Mobile Recharge</button>
+                <button class="tab-btn" id="tabData" onclick="switchService('data')">📶 Data Pack Add-on</button>
+                <button class="tab-btn" id="tabDTH" onclick="switchService('dth')">📺 DTH Recharge</button>
+            </div>
+
+            <form id="rechargeForm" onsubmit="handleRechargeSubmit(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label id="lblTargetNumber">Mobile Number</label>
+                        <input type="tel" id="targetNumberInput" placeholder="Enter 10-digit mobile number" required value="9876543210">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service Operator</label>
+                        <select id="operatorSelect" required>
+                            <option value="Airtel">Airtel Prepaid</option>
+                            <option value="Jio">Jio Digital</option>
+                            <option value="Vi">Vodafone Idea (Vi)</option>
+                            <option value="BSNL">BSNL Prepaid</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Recharge Plan</label>
+                    <div class="selection-grid" id="plansContainer" style="margin-top: 6px;">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- PAYMENT SUMMARY BOX -->
+                <div class="reward-result" style="background: rgba(4, 18, 12, 0.7); border-color: rgba(98, 220, 228, 0.3);">
+                    <div>
+                        <span>Recharge Plan Value:</span>
+                        <strong id="summaryPlanVal">₹100.00</strong>
+                    </div>
+                    <div>
+                        <span>Cost in MSTC Points (100 MSTC = ₹10):</span>
+                        <strong style="color: var(--cyan);" id="summaryPointsCost">1,000 MSTC</strong>
+                    </div>
+                    <div>
+                        <span>Your Current Balance:</span>
+                        <strong id="summaryUserBal">1,250 MSTC</strong>
+                    </div>
+                    <div class="reward-total">
+                        <span>Balance Remaining After Recharge:</span>
+                        <strong style="color: var(--green);" id="summaryRemainingBal">250 MSTC (₹25.00)</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button type="submit" class="gradient-button" id="btnSubmitRecharge" style="width: 100%; justify-content: center; padding: 14px; font-size: 1.05rem;">
+                        ⚡ Pay with MSTC Points & Recharge Now
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- SIDEBAR INFO (1 COL) -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div class="card">
+                <span class="eyebrow">INSTANT RECHARGE RAIL</span>
+                <h3 style="margin: 12px 0 8px;">How Points Cover Bills</h3>
+                <p class="muted" style="font-size: 0.85rem; line-height: 1.7;">
+                    Every verified kilogram you recycle generates direct purchasing power. For example, 10 kg of plastic (100 MSTC) = ₹10 off any recharge.
+                </p>
+                <div style="margin-top: 14px; padding: 12px; background: rgba(57, 217, 138, 0.08); border: 1px solid rgba(57, 217, 138, 0.2); border-radius: 12px; font-size: 0.82rem;">
+                    🪙 <strong>100% Points Supported:</strong> No additional credit cards or cash required if you have enough MSTC Points.
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="eyebrow" style="color: var(--cyan);">NEED MORE POINTS?</span>
+                <h3 style="margin: 12px 0 8px;">Recycle & Top-Up</h3>
+                <p class="muted" style="font-size: 0.85rem;">
+                    Deposit metal cans, old phones, or batteries at any certified center to instantly reload your wallet!
+                </p>
+                <a href="recycle.html" class="outline-button btn-sm" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    + Go to Recycle Station
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal-overlay" id="rechargeSuccessModal">
+    <div class="modal-box" style="text-align: center;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(145deg, #22d9ff, #19e68c); color: #051d13; display: grid; place-items: center; font-size: 2.2rem; margin: 0 auto 16px;">
+            📱
+        </div>
+
+        <span class="eyebrow" style="background: rgba(98, 220, 228, 0.15); color: var(--cyan);">RECHARGE SUCCESSFUL – PROTOTYPE</span>
+        <h2 style="margin: 14px 0 6px; font-size: 1.8rem; color: #fff;" id="modalRechargeTitle">
+            ₹100 Mobile Recharge Applied
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+            Your transaction has been confirmed on the prototype ledger.
+        </p>
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 24px; text-align: left; font-size: 0.85rem;">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Operator / Target:</span>
+                <strong id="modalOperatorTarget" style="color: #fff;">Airtel • 9876543210</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">MSTC Points Deducted:</span>
+                <strong style="color: #ff5e7e;" id="modalDeductedPts">-1,000 MSTC</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Remaining Balance:</span>
+                <strong style="color: var(--green);" id="modalRemainingBal">250 MSTC (₹25.00)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Transaction Hash:</span>
+                <span style="font-family: monospace; color: var(--cyan);" id="modalTxHash">0xa13b...ee45</span>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+            <a href="wallet.html" class="gradient-button" style="flex:1; justify-content:center;">View in Wallet</a>
+            <a href="dashboard.html" class="outline-button" style="flex:1; justify-content:center;">Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let activeService = "mobile";
+    let selectedPlan = null;
+
+    function switchService(service) {
+        activeService = service;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        if (service === 'mobile') document.getElementById("tabMobile").classList.add("active");
+        if (service === 'data') document.getElementById("tabData").classList.add("active");
+        if (service === 'dth') document.getElementById("tabDTH").classList.add("active");
+
+        const lbl = document.getElementById("lblTargetNumber");
+        const inp = document.getElementById("targetNumberInput");
+        const op = document.getElementById("operatorSelect");
+
+        if (service === 'dth') {
+            lbl.textContent = "DTH Subscriber ID / Smart Card No.";
+            inp.placeholder = "Enter 10 or 11-digit Subscriber ID";
+            op.innerHTML = `
+                <option value="Tata Play">Tata Play</option>
+                <option value="Airtel DTH">Airtel Digital TV</option>
+                <option value="Dish TV">Dish TV</option>
+                <option value="Sun Direct">Sun Direct</option>
+            `;
+        } else {
+            lbl.textContent = "Mobile Number";
+            inp.placeholder = "Enter 10-digit mobile number";
+            op.innerHTML = `
+                <option value="Airtel">Airtel Prepaid</option>
+                <option value="Jio">Jio Digital</option>
+                <option value="Vi">Vodafone Idea (Vi)</option>
+                <option value="BSNL">BSNL Prepaid</option>
+            `;
+        }
+
+        renderPlans();
+    }
+
+    function renderPlans() {
+        const container = document.getElementById("plansContainer");
+        const plans = (typeof RECHARGE_PLANS !== "undefined" && RECHARGE_PLANS[activeService]) ? RECHARGE_PLANS[activeService] : [];
+
+        if (plans.length > 0 && (!selectedPlan || !plans.find(p => p.id === selectedPlan.id))) {
+            selectedPlan = plans[0];
+        }
+
+        container.innerHTML = plans.map(p => `
+            <div class="select-card ${selectedPlan && selectedPlan.id === p.id ? 'selected' : ''}" onclick="selectPlan('${p.id}')">
+                <div class="card-top">
+                    <strong style="font-size: 1.25rem; color: #fff;">₹${p.amount}</strong>
+                    <span class="rate-tag">${p.points} MSTC</span>
+                </div>
+                <div>
+                    <span style="font-size: 0.88rem; font-weight: 600; display:block;">${p.name}</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary); display:block; margin-top:4px;">
+                        Validity: ${p.validity} ${p.data ? '• Data: ' + p.data : ''}
+                    </span>
+                </div>
+            </div>
+        `).join("");
+
+        updateSummary();
+    }
+
+    function selectPlan(planId) {
+        const plans = RECHARGE_PLANS[activeService] || [];
+        selectedPlan = plans.find(p => p.id === planId) || plans[0];
+        renderPlans();
+    }
+
+    function updateSummary() {
+        const user = getCurrentUser();
+        if (!user || !selectedPlan) return;
+
+        document.getElementById("summaryPlanVal").textContent = `₹${selectedPlan.amount}.00`;
+        document.getElementById("summaryPointsCost").textContent = `${selectedPlan.points.toLocaleString()} MSTC`;
+        document.getElementById("summaryUserBal").textContent = `${(user.mstcPoints || 0).toLocaleString()} MSTC`;
+
+        const rem = (user.mstcPoints || 0) - selectedPlan.points;
+        const btn = document.getElementById("btnSubmitRecharge");
+        const remEl = document.getElementById("summaryRemainingBal");
+
+        if (rem < 0) {
+            remEl.innerHTML = `<span style="color:#ff5e7e;">Insufficient Balance (Need ${Math.abs(rem)} more MSTC)</span>`;
+            btn.disabled = true;
+            btn.textContent = `❌ Need ${Math.abs(rem)} more MSTC Points (Recycle More!)`;
+        } else {
+            remEl.textContent = `${rem.toLocaleString()} MSTC (₹${(rem/10).toFixed(2)})`;
+            btn.disabled = false;
+            btn.textContent = `⚡ Pay ${selectedPlan.points} MSTC & Recharge ₹${selectedPlan.amount}`;
+        }
+    }
+
+    function handleRechargeSubmit(e) {
+        e.preventDefault();
+        const user = getCurrentUser();
+        if (!user || !selectedPlan) return;
+
+        const target = document.getElementById("targetNumberInput").value.trim();
+        const operator = document.getElementById("operatorSelect").value;
+
+        if (!target) {
+            showToast("Please enter a valid target number or ID.", "error");
+            return;
+        }
+
+        const res = redeemPoints({
+            type: "RECHARGE",
+            description: `${operator} ₹${selectedPlan.amount} (${selectedPlan.name})`,
+            pointsCost: selectedPlan.points,
+            rupeesValue: selectedPlan.amount,
+            extraDetails: { operator, target, planId: selectedPlan.id }
+        });
+
+        if (!res.success) {
+            showToast(res.message, "error");
+            return;
+        }
+
+        // Show Modal
+        document.getElementById("modalRechargeTitle").textContent = `₹${selectedPlan.amount} ${operator} Recharge Applied`;
+        document.getElementById("modalOperatorTarget").textContent = `${operator} • ${target}`;
+        document.getElementById("modalDeductedPts").textContent = `-${res.deductedPoints.toLocaleString()} MSTC`;
+        document.getElementById("modalRemainingBal").textContent = `${res.remainingPoints.toLocaleString()} MSTC (₹${res.remainingRewardValue.toFixed(2)})`;
+        document.getElementById("modalTxHash").textContent = res.transaction.blockHash;
+
+        document.getElementById("rechargeSuccessModal").classList.add("active");
+        showToast("Recharge Successful (Prototype)!", "success");
+
+        // Update header
+        document.getElementById("rechargeUserPts").textContent = res.remainingPoints.toLocaleString();
+        document.getElementById("rechargeUserVal").textContent = `₹${res.remainingRewardValue.toFixed(2)}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("recharge");
+        document.getElementById("rechargeUserPts").textContent = (user.mstcPoints || 0).toLocaleString();
+        document.getElementById("rechargeUserVal").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+
+        switchService("mobile");
+    });
+</script>
+</body>
+</html>

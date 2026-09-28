@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Utility Bills | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">UTILITY BILL SETTLEMENT</span>
+            <h1 style="margin-top: 10px;">Pay Everyday Bills with MSTC Rewards</h1>
+            <p class="muted">Offset your monthly electricity, broadband, water and piped gas bills directly with recycling credits.</p>
+        </div>
+
+        <div class="user-chip">
+            <span class="user-pts">Your Balance: <strong id="billUserPts">1,250</strong> MSTC</span>
+            <span class="user-val" id="billUserVal">₹125.00</span>
+        </div>
+    </div>
+
+    <div class="grid grid-3">
+        <!-- FORM COLUMN (2 COLS) -->
+        <div class="card" style="grid-column: span 2;">
+            <!-- BILL CATEGORY TABS -->
+            <div class="tab-bar">
+                <button class="tab-btn active" id="tabElec" onclick="switchBillCategory('electricity')">⚡ Electricity</button>
+                <button class="tab-btn" id="tabNet" onclick="switchBillCategory('internet')">🌐 Broadband / Fiber</button>
+                <button class="tab-btn" id="tabWater" onclick="switchBillCategory('water')">🚰 Water Board</button>
+                <button class="tab-btn" id="tabGas" onclick="switchBillCategory('gas')">🔥 Piped Gas</button>
+            </div>
+
+            <form id="billForm" onsubmit="handleBillSubmit(event)">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label>Service Provider / Utility Board</label>
+                        <select id="billBoardSelect" required onchange="updateBillPreset()">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label id="lblConsumerNo">Consumer Account / Meter ID</label>
+                        <input type="text" id="consumerNoInput" placeholder="e.g. 100892841" required value="100892841">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Bill Amount Due (₹)</label>
+                    <input type="number" id="billAmountInput" value="850" min="50" step="10" required oninput="calculateBillDiscount()" style="font-size: 1.25rem; font-weight: 700; color: #fff;">
+                </div>
+
+                <!-- REWARD APPLICATION SECTION -->
+                <div style="margin: 20px 0; padding: 18px; border-radius: 16px; background: rgba(20, 48, 34, 0.6); border: 1px solid rgba(57, 217, 138, 0.3);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                        <span style="font-size: 0.95rem; font-weight: 700; color: #fff;">Apply MSTC Reward Value</span>
+                        <span class="badge-verified" id="availableRewardBadge">Available: ₹125.00</span>
+                    </div>
+
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 14px;">
+                        <button type="button" class="outline-button btn-sm" onclick="setRewardToApply(20)">Use ₹20 (200 Pts)</button>
+                        <button type="button" class="outline-button btn-sm" onclick="setRewardToApply(50)">Use ₹50 (500 Pts)</button>
+                        <button type="button" class="outline-button btn-sm" onclick="setRewardToApply(100)">Use ₹100 (1,000 Pts)</button>
+                        <button type="button" class="outline-button btn-sm" onclick="applyMaxReward()" style="border-color: var(--green); color: var(--green);">Use Max Available</button>
+                    </div>
+
+                    <div class="form-group" style="margin:0;">
+                        <label style="font-size: 0.8rem;">Reward Discount Amount to Apply (₹)</label>
+                        <input type="number" id="appliedRewardInput" value="100" min="0" step="10" oninput="calculateBillDiscount()">
+                    </div>
+                </div>
+
+                <!-- SETTLEMENT SUMMARY -->
+                <div class="reward-result" style="background: rgba(4, 18, 12, 0.7); border-color: rgba(98, 220, 228, 0.3);">
+                    <div>
+                        <span>Original Bill Amount:</span>
+                        <strong id="sumOriginalBill">₹850.00</strong>
+                    </div>
+                    <div>
+                        <span>MSTC Reward Applied:</span>
+                        <strong style="color: var(--green);" id="sumRewardDiscount">-₹100.00 (1,000 MSTC)</strong>
+                    </div>
+                    <div class="reward-total">
+                        <span style="font-size: 1.15rem; color: #fff;">Remaining Payable by Prototype:</span>
+                        <strong style="font-size: 1.4rem; color: var(--cyan);" id="sumPayableRemaining">₹750.00</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <button type="submit" class="gradient-button" id="btnContinuePay" style="width: 100%; justify-content: center; padding: 14px; font-size: 1.1rem;">
+                        ⚡ Continue Payment (Apply ₹100 Reward) →
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- SIDEBAR INFO (1 COL) -->
+        <div style="display:flex; flex-direction:column; gap:18px;">
+            <div class="card">
+                <span class="eyebrow">CIRCULAR UTILITY PROGRAM</span>
+                <h3 style="margin: 12px 0 8px;">Direct Bill Relief</h3>
+                <p class="muted" style="font-size: 0.85rem; line-height: 1.7;">
+                    By partnering with state electricity boards and municipal corporations, Recycle2Earn converts household sorted recycling into direct utility subsidies.
+                </p>
+                <div style="margin-top: 14px; padding: 12px; background: rgba(98, 220, 228, 0.08); border: 1px solid rgba(98, 220, 228, 0.25); border-radius: 12px; font-size: 0.82rem;">
+                    💡 <strong>Calculation Formula:</strong> 100 MSTC Points = ₹10.00 bill deduction.
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="eyebrow" style="color: var(--green);">SUPPORTED DISCOMS</span>
+                <h3 style="margin: 12px 0 8px;">Authorized Boards</h3>
+                <ul style="padding-left:18px; margin:0; font-size:0.82rem; color:var(--text-secondary); line-height:1.8;">
+                    <li>BESCOM (Bengaluru Electricity)</li>
+                    <li>Tata Power / Adani Electricity (Mumbai)</li>
+                    <li>BSES Rajdhani / Yamuna (Delhi)</li>
+                    <li>TSSPDCL (Hyderabad)</li>
+                    <li>Airtel Xstream & Jio Fiber Broadband</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- PAYMENT SUCCESS MODAL -->
+<div class="modal-overlay" id="billSuccessModal">
+    <div class="modal-box" style="text-align: center;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(145deg, #19e68c, #39d98a); color: #051d13; display: grid; place-items: center; font-size: 2.2rem; margin: 0 auto 16px;">
+            ⚡
+        </div>
+
+        <span class="eyebrow" style="background: rgba(57, 217, 138, 0.15);">PAYMENT SUCCESSFUL – PROTOTYPE</span>
+        <h2 style="margin: 14px 0 6px; font-size: 1.8rem; color: #fff;" id="modalBillTitle">
+            ₹850.00 Electricity Bill Paid
+        </h2>
+        <p style="color: var(--cyan); font-weight: 700; font-size: 1rem; margin-bottom: 20px;" id="modalDiscountApplied">
+            Applied ₹100.00 MSTC Reward (-1,000 Points)
+        </p>
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 24px; text-align: left; font-size: 0.85rem;">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Biller / Board:</span>
+                <strong id="modalBillerName" style="color: #fff;">BESCOM Bangalore</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Consumer ID:</span>
+                <span style="font-family: monospace; color: #fff;" id="modalConsumerNo">100892841</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Points Redeemed:</span>
+                <strong style="color: #ff5e7e;" id="modalPointsDeducted">-1,000 MSTC</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Remaining MSTC Balance:</span>
+                <strong style="color: var(--green);" id="modalNewBalance">250 MSTC (₹25.00)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Audit Hash:</span>
+                <span style="font-family: monospace; color: var(--cyan);" id="modalTxHash">0x9f1a...44cb</span>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+            <a href="wallet.html" class="gradient-button" style="flex:1; justify-content:center;">View in Wallet</a>
+            <a href="dashboard.html" class="outline-button" style="flex:1; justify-content:center;">Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let activeCategory = "electricity";
+
+    const BILL_PROVIDERS = {
+        electricity: [
+            { id: "bescom", name: "BESCOM (Bangalore Electricity Supply)", defaultAmount: 850 },
+            { id: "tatapower", name: "Tata Power (Mumbai / Delhi)", defaultAmount: 1200 },
+            { id: "adani", name: "Adani Electricity Mumbai Ltd", defaultAmount: 940 },
+            { id: "bses", name: "BSES Rajdhani Power Ltd (Delhi)", defaultAmount: 1100 }
+        ],
+        internet: [
+            { id: "airtel_fiber", name: "Airtel Xstream Fiber Broadband", defaultAmount: 799 },
+            { id: "jio_fiber", name: "Jio Fiber High-Speed Internet", defaultAmount: 699 },
+            { id: "act_fiber", name: "ACT Fibernet Broadband", defaultAmount: 825 }
+        ],
+        water: [
+            { id: "bwssb", name: "BWSSB (Bangalore Water Board)", defaultAmount: 320 },
+            { id: "mcgm", name: "MCGM Water Board Mumbai", defaultAmount: 450 },
+            { id: "djb", name: "Delhi Jal Board", defaultAmount: 380 }
+        ],
+        gas: [
+            { id: "igl", name: "IGL (Indraprastha Gas Limited)", defaultAmount: 640 },
+            { id: "mgl", name: "Mahanagar Gas Limited Mumbai", defaultAmount: 580 },
+            { id: "gail", name: "GAIL Gas Limited", defaultAmount: 520 }
+        ]
+    };
+
+    function switchBillCategory(cat) {
+        activeCategory = cat;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        if (cat === 'electricity') document.getElementById("tabElec").classList.add("active");
+        if (cat === 'internet') document.getElementById("tabNet").classList.add("active");
+        if (cat === 'water') document.getElementById("tabWater").classList.add("active");
+        if (cat === 'gas') document.getElementById("tabGas").classList.add("active");
+
+        const sel = document.getElementById("billBoardSelect");
+        const list = BILL_PROVIDERS[cat] || [];
+        sel.innerHTML = list.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+
+        updateBillPreset();
+    }
+
+    function updateBillPreset() {
+        const sel = document.getElementById("billBoardSelect");
+        const list = BILL_PROVIDERS[activeCategory] || [];
+        const prov = list.find(p => p.id === sel.value) || list[0];
+
+        if (prov) {
+            document.getElementById("billAmountInput").value = prov.defaultAmount;
+        }
+        calculateBillDiscount();
+    }
+
+    function setRewardToApply(rs) {
+        const user = getCurrentUser();
+        const maxRs = user ? (user.mstcPoints / 10) : 0;
+        const target = Math.min(rs, maxRs);
+        document.getElementById("appliedRewardInput").value = target;
+        calculateBillDiscount();
+    }
+
+    function applyMaxReward() {
+        const user = getCurrentUser();
+        const billAmt = parseFloat(document.getElementById("billAmountInput").value) || 0;
+        const maxUserRs = user ? (user.mstcPoints / 10) : 0;
+        const target = Math.min(billAmt, maxUserRs);
+        document.getElementById("appliedRewardInput").value = target;
+        calculateBillDiscount();
+    }
+
+    function calculateBillDiscount() {
+        const user = getCurrentUser();
+        const billAmt = parseFloat(document.getElementById("billAmountInput").value) || 0;
+        let appliedRs = parseFloat(document.getElementById("appliedRewardInput").value) || 0;
+
+        const maxUserRs = user ? (user.mstcPoints / 10) : 0;
+        if (appliedRs > maxUserRs) {
+            appliedRs = maxUserRs;
+            document.getElementById("appliedRewardInput").value = appliedRs;
+        }
+
+        if (appliedRs > billAmt) {
+            appliedRs = billAmt;
+            document.getElementById("appliedRewardInput").value = appliedRs;
+        }
+
+        const remaining = Math.max(0, billAmt - appliedRs);
+        const pointsRequired = Math.round(appliedRs * 10);
+
+        document.getElementById("sumOriginalBill").textContent = `₹${billAmt.toFixed(2)}`;
+        document.getElementById("sumRewardDiscount").textContent = `-₹${appliedRs.toFixed(2)} (${pointsRequired.toLocaleString()} MSTC)`;
+        document.getElementById("sumPayableRemaining").textContent = `₹${remaining.toFixed(2)}`;
+
+        const btn = document.getElementById("btnContinuePay");
+        btn.textContent = `⚡ Continue Payment (Apply ₹${appliedRs.toFixed(2)} Reward) →`;
+    }
+
+    function handleBillSubmit(e) {
+        e.preventDefault();
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const billAmt = parseFloat(document.getElementById("billAmountInput").value) || 0;
+        const appliedRs = parseFloat(document.getElementById("appliedRewardInput").value) || 0;
+        const pointsCost = Math.round(appliedRs * 10);
+        const consumerNo = document.getElementById("consumerNoInput").value.trim();
+        const sel = document.getElementById("billBoardSelect");
+        const provName = sel.options[sel.selectedIndex].text;
+
+        if (appliedRs > 0 && user.mstcPoints < pointsCost) {
+            showToast("Insufficient MSTC points for this discount.", "error");
+            return;
+        }
+
+        const res = redeemPoints({
+            type: "BILL_PAYMENT",
+            description: `${provName} (Acct: ${consumerNo})`,
+            pointsCost: pointsCost,
+            rupeesValue: appliedRs,
+            extraDetails: { biller: provName, consumerNo, originalBill: billAmt, remainingPaid: billAmt - appliedRs }
+        });
+
+        if (!res.success) {
+            showToast(res.message, "error");
+            return;
+        }
+
+        // Show Modal
+        document.getElementById("modalBillTitle").textContent = `₹${billAmt.toFixed(2)} Bill Paid`;
+        document.getElementById("modalDiscountApplied").textContent = `Applied ₹${appliedRs.toFixed(2)} MSTC Reward (-${pointsCost.toLocaleString()} Points)`;
+        document.getElementById("modalBillerName").textContent = provName;
+        document.getElementById("modalConsumerNo").textContent = consumerNo;
+        document.getElementById("modalPointsDeducted").textContent = `-${pointsCost.toLocaleString()} MSTC`;
+        document.getElementById("modalNewBalance").textContent = `${res.remainingPoints.toLocaleString()} MSTC (₹${res.remainingRewardValue.toFixed(2)})`;
+        document.getElementById("modalTxHash").textContent = res.transaction.blockHash;
+
+        document.getElementById("billSuccessModal").classList.add("active");
+        showToast("Bill Payment Successful (Prototype)!", "success");
+
+        // Update header
+        document.getElementById("billUserPts").textContent = res.remainingPoints.toLocaleString();
+        document.getElementById("billUserVal").textContent = `₹${res.remainingRewardValue.toFixed(2)}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("bills");
+        document.getElementById("billUserPts").textContent = (user.mstcPoints || 0).toLocaleString();
+        document.getElementById("billUserVal").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+        document.getElementById("availableRewardBadge").textContent = `Available: ₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+
+        switchBillCategory("electricity");
+    });
+</script>
+</body>
+</html>
