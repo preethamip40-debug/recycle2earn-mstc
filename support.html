@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support Center | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">CITIZEN & PARTNER ASSISTANCE</span>
+            <h1 style="margin-top: 10px;">Help Center & Knowledge Base</h1>
+            <p class="muted">Frequently asked questions, anti-fraud policies and partner onboarding requests.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <a href="dashboard.html" class="outline-button btn-sm">← Back to Dashboard</a>
+        </div>
+    </div>
+
+    <!-- 3 SUPPORT CHANNELS BANNER -->
+    <div class="grid grid-3" style="margin-bottom: 28px;">
+        <div class="card">
+            <div style="font-size: 2rem; margin-bottom: 10px;">💬</div>
+            <h3>24/7 Eco Concierge</h3>
+            <p style="font-size: 0.85rem;">Instant chatbot and WhatsApp support for drop-off issues.</p>
+            <button class="outline-button btn-sm" onclick="showToast('Connecting to AI Eco Assistant...', 'info')" style="margin-top: 14px;">Chat with Support →</button>
+        </div>
+
+        <div class="card">
+            <div style="font-size: 2rem; margin-bottom: 10px;">📍</div>
+            <h3>Collection Point Inquiries</h3>
+            <p style="font-size: 0.85rem;">Need assistance locating a scale or reporting a closed hub?</p>
+            <a href="centers.html" class="outline-button btn-sm" style="margin-top: 14px;">Find Centers →</a>
+        </div>
+
+        <div class="card">
+            <div style="font-size: 2rem; margin-bottom: 10px;">🏢</div>
+            <h3>Partner With Us</h3>
+            <p style="font-size: 0.85rem;">Become an authorized recycling collection point in your city.</p>
+            <a href="#partnerForm" class="outline-button btn-sm" style="margin-top: 14px;">Apply to Host a Hub →</a>
+        </div>
+    </div>
+
+    <!-- FAQ ACCORDION & CONTACT FORM -->
+    <div class="grid grid-3">
+        <!-- FREQUENTLY ASKED QUESTIONS (2 COLS) -->
+        <div class="card" style="grid-column: span 2;">
+            <span class="eyebrow">FREQUENTLY ASKED QUESTIONS</span>
+            <h2 style="margin: 12px 0 20px;">Everything You Need to Know</h2>
+
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; padding: 16px;">
+                    <strong style="color: #fff; display: block; font-size: 1.05rem; margin-bottom: 6px;">
+                        ❓ How is the MSTC Point value calculated into Indian Rupees (₹)?
+                    </strong>
+                    <p style="font-size: 0.85rem; margin: 0; color: var(--text-secondary); line-height: 1.7;">
+                        The platform establishes a guaranteed conversion rule of <strong>100 MSTC Points = ₹10.00 Reward Value</strong> (1 MSTC = ₹0.10). When you pay electricity bills, mobile recharges, or redeem gift cards, your accumulated reward balance offsets the total payable amount.
+                    </p>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; padding: 16px;">
+                    <strong style="color: #fff; display: block; font-size: 1.05rem; margin-bottom: 6px;">
+                        ❓ What is the QR verification process at the collection center?
+                    </strong>
+                    <p style="font-size: 0.85rem; margin: 0; color: var(--text-secondary); line-height: 1.7;">
+                        When you arrive at an authorized MSTC collection depot, you weigh your material on their calibrated digital scale. The station provides a dynamic QR code. Scanning this in your Recycle2Earn interface cryptographically binds the certified scale weight with your user ID and mints your points directly.
+                    </p>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; padding: 16px;">
+                    <strong style="color: #fff; display: block; font-size: 1.05rem; margin-bottom: 6px;">
+                        ❓ What are the minimum and maximum redemption thresholds?
+                    </strong>
+                    <p style="font-size: 0.85rem; margin: 0; color: var(--text-secondary); line-height: 1.7;">
+                        - Minimum Mobile Recharge: 200 MSTC (₹20)<br>
+                        - Minimum Direct Cash/UPI Redemption: 1,000 MSTC (₹100)<br>
+                        - Maximum Single Deposit Limit: 500 kg per transaction (to prevent commercial fraud).
+                    </p>
+                </div>
+
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; padding: 16px;">
+                    <strong style="color: #fff; display: block; font-size: 1.05rem; margin-bottom: 6px;">
+                        ❓ How does the MST Ledger prevent fraud?
+                    </strong>
+                    <p style="font-size: 0.85rem; margin: 0; color: var(--text-secondary); line-height: 1.7;">
+                        Every drop-off record generates an immutable cryptographic hash containing station signature, calibrated weight, timestamp, and category factor. Duplicate scans, timestamp drift, or unauthorized scale overrides are instantly rejected by our automated consensus rules.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT & TICKET FORM (1 COL) -->
+        <div class="card" id="partnerForm">
+            <span class="eyebrow" style="color: var(--cyan);">SEND AN INQUIRY</span>
+            <h3 style="margin: 12px 0 16px;">Submit a Ticket / Partner Application</h3>
+
+            <form onsubmit="handleSupportTicket(event)">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="suppName" placeholder="Full Name" required value="Arjun Sharma">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="suppEmail" placeholder="Email" required value="arjun@recycle2earn.org">
+                </div>
+
+                <div class="form-group">
+                    <label>Inquiry Type</label>
+                    <select id="suppType" required>
+                        <option value="General Support">General Citizen Inquiry</option>
+                        <option value="Deposit Issue">Drop-off / Weight Dispute</option>
+                        <option value="Redemption Issue">Recharge / Voucher Problem</option>
+                        <option value="Partner Onboarding">Collection Hub Partner Application</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Message / Details</label>
+                    <textarea id="suppMessage" rows="4" placeholder="Describe your question or proposed hub location..." required style="resize: vertical;"></textarea>
+                </div>
+
+                <button type="submit" class="gradient-button" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    ✉️ Submit Ticket (Prototype)
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    function handleSupportTicket(e) {
+        e.preventDefault();
+        const type = document.getElementById("suppType").value;
+        const msg = document.getElementById("suppMessage").value.trim();
+
+        if (!msg) {
+            showToast("Please enter your message.", "error");
+            return;
+        }
+
+        showToast(`Ticket submitted for "${type}". Ticket ID: #TCK-${Math.floor(1000 + Math.random()*9000)}`, "success");
+        document.getElementById("suppMessage").value = "";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderNavbar("support");
+    });
+</script>
+</body>
+</html>

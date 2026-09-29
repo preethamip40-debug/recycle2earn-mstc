@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Dashboard | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Rendered dynamically by renderNavbar('dashboard') -->
+</header>
+
+<main class="dashboard-container">
+    <!-- DASHBOARD TOP HEADER -->
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow" id="timeGreeting">🌱 SUSTAINABLE CITIZEN DASHBOARD</span>
+            <h1 style="margin-top: 10px;">
+                Welcome back, <span style="color: var(--green);" id="userNameDisplay">Arjun</span>
+            </h1>
+            <p class="muted" id="userWalletTag">
+                Wallet ID: <span style="color: var(--cyan); font-family: monospace;" id="userWalletAddress">0x7F9a...3B4C</span> • Member since Aug 2026
+            </p>
+        </div>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="recycle.html" class="gradient-button" style="font-size: 1.02rem; padding: 12px 24px;">
+                + RECYCLE & EARN
+            </a>
+            <a href="wallet.html" class="outline-button">
+                Open Wallet 🪙
+            </a>
+        </div>
+    </div>
+
+    <!-- MAIN BALANCE HERO BANNER -->
+    <section class="wallet-card" style="margin-bottom: 28px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <span class="balance-label">AVAILABLE MSTC BALANCE</span>
+                <div class="wallet-points" id="dashBalancePoints">1,250 <span style="font-size: 1.5rem; color: var(--green);">MSTC</span></div>
+                <div class="wallet-value">
+                    ≈ <span id="dashRewardValue">₹125.00</span> Platform Reward Value
+                    <span style="font-size: 0.8rem; color: var(--text-secondary); margin-left: 8px;">(100 MSTC = ₹10)</span>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+                <span class="blockchain-badge" id="dashLedgerBadge">MST Blockchain · Block #148,291</span>
+                <div style="display: flex; gap: 10px;">
+                    <a href="recharge.html" class="gradient-button btn-sm">📱 Mobile Recharge</a>
+                    <a href="bills.html" class="outline-button btn-sm">⚡ Pay Bills</a>
+                    <a href="rewards.html" class="outline-button btn-sm">🎁 Vouchers</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QUICK ACTIONS STRIP -->
+    <div style="margin-bottom: 24px;">
+        <span class="eyebrow" style="margin-bottom: 12px; display: inline-block;">QUICK SHORTCUTS</span>
+        <div class="quick-actions" style="margin-top: 6px;">
+            <a href="recycle.html" class="action-btn-pill">♻️ Recycle Waste</a>
+            <a href="wallet.html" class="action-btn-pill">🪙 Rewards Wallet</a>
+            <a href="recharge.html" class="action-btn-pill">📱 Mobile & Data</a>
+            <a href="bills.html" class="action-btn-pill">⚡ Electricity Bills</a>
+            <a href="rewards.html" class="action-btn-pill">🎁 Gift Vouchers</a>
+            <a href="passport.html" class="action-btn-pill">📜 Waste Passport</a>
+            <a href="centers.html" class="action-btn-pill">📍 Find Centers</a>
+            <a href="transactions.html" class="action-btn-pill">📋 Full History</a>
+        </div>
+    </div>
+
+    <!-- 4 KEY STAT CARDS -->
+    <section class="stats-grid">
+        <div class="stat-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="label">TOTAL WASTE RECYCLED</div>
+                <span style="font-size: 1.4rem;">♻️</span>
+            </div>
+            <div class="number" id="dashTotalWaste">48.5 KG</div>
+            <p style="font-size: 0.82rem; margin-top: 6px; color: var(--text-secondary);" id="dashWasteSub">Across 4 verified deposits</p>
+        </div>
+
+        <div class="stat-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="label">LIFETIME POINTS EARNED</div>
+                <span style="font-size: 1.4rem;">🪙</span>
+            </div>
+            <div class="number" id="dashTotalEarned" style="color: var(--green);">1,450</div>
+            <p style="font-size: 0.82rem; margin-top: 6px; color: var(--text-secondary);">Verified on MST Ledger</p>
+        </div>
+
+        <div class="stat-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="label">REWARDS REDEEMED</div>
+                <span style="font-size: 1.4rem;">💰</span>
+            </div>
+            <div class="number" id="dashTotalRedeemed" style="color: var(--cyan);">200 MSTC</div>
+            <p style="font-size: 0.82rem; margin-top: 6px; color: var(--text-secondary);">₹20.00 used for recharges</p>
+        </div>
+
+        <div class="stat-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="label">RECYCLING STREAK</div>
+                <span style="font-size: 1.4rem;">🔥</span>
+            </div>
+            <div class="number" id="dashStreak">5 DAYS</div>
+            <p style="font-size: 0.82rem; margin-top: 6px; color: var(--green);">Keep it up! +50 Pts next</p>
+        </div>
+    </section>
+
+    <!-- TWO-COLUMN LAYOUT: TRANSACTIONS & ENVIRONMENTAL CHALLENGE -->
+    <section class="grid grid-3" style="margin-top: 28px;">
+        <!-- RECENT TRANSACTIONS (2 COLS) -->
+        <div class="card" style="grid-column: span 2;">
+            <div class="section-header" style="margin-bottom: 16px;">
+                <div>
+                    <h2>Recent Activity & Hand-offs</h2>
+                    <p style="font-size: 0.85rem;">Live verified records from local collection hubs</p>
+                </div>
+                <a href="transactions.html" class="outline-button btn-sm">View All (Transactions) →</a>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date / ID</th>
+                            <th>Activity / Category</th>
+                            <th>Weight / Note</th>
+                            <th>Points</th>
+                            <th>Reward Value</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashTxTable">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MONTHLY CHALLENGE & IMPACT CARD (1 COL) -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div class="card">
+                <span class="eyebrow">MONTHLY CHALLENGE</span>
+                <h3 style="margin: 14px 0 6px; font-size: 1.25rem;">Recycle 25.0 KG in Sept</h3>
+                <p class="muted" style="font-size: 0.85rem;">
+                    Reach 25 kg to unlock the "September Eco Master" badge and <strong>+100 Bonus MSTC Points</strong>!
+                </p>
+
+                <div style="height: 12px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; margin: 16px 0 8px;">
+                    <div id="challengeProgressBar" style="width: 45%; height: 100%; background: linear-gradient(90deg, #39d98a, #22d9ff); border-radius: 999px;"></div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                    <span id="challengeProgressText" style="color: var(--green); font-weight: 750;">11.25 / 25.0 KG</span>
+                    <span style="color: var(--text-secondary);" id="challengePercent">45% Completed</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="eyebrow" style="color: var(--cyan); border-color: rgba(98, 220, 228, 0.3);">YOUR CARBON SAVINGS</span>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+                    <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="color: var(--green); font-size: 1.4rem; font-weight: 750;" id="dashCo2Saved">72.8 kg</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">CO₂ Prevented</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
+                        <div style="color: var(--cyan); font-size: 1.4rem; font-weight: 750;" id="dashTreesEquiv">3.4</div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary);">Trees Equiv.</div>
+                    </div>
+                </div>
+                <a href="passport.html" class="outline-button btn-sm" style="width: 100%; justify-content: center; margin-top: 14px;">
+                    View Digital Waste Passport →
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • Real-time localStorage Sync • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("dashboard");
+
+        // Greet based on time of day
+        const hr = new Date().getHours();
+        const timeWord = hr < 12 ? "Good morning" : hr < 18 ? "Good afternoon" : "Good evening";
+        const greetingEl = document.getElementById("timeGreeting");
+        if (greetingEl) greetingEl.textContent = `🌱 ${timeWord.toUpperCase()} • SUSTAINABLE CITIZEN DASHBOARD`;
+
+        // Bind profile data
+        document.getElementById("userNameDisplay").textContent = user.name || "Recycler";
+        document.getElementById("userWalletAddress").textContent = user.walletAddress || "0x7F9a...3B4C";
+        document.getElementById("dashBalancePoints").innerHTML = `${(user.mstcPoints || 0).toLocaleString()} <span style="font-size: 1.5rem; color: var(--green);">MSTC</span>`;
+        document.getElementById("dashRewardValue").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+
+        document.getElementById("dashTotalWaste").textContent = `${(user.totalWaste || 0).toFixed(1)} KG`;
+        document.getElementById("dashTotalEarned").textContent = `${(user.totalEarnedPoints || user.mstcPoints || 0).toLocaleString()} MSTC`;
+        
+        const redeemed = user.totalRedeemedPoints || 0;
+        document.getElementById("dashTotalRedeemed").textContent = `${redeemed.toLocaleString()} MSTC`;
+        document.getElementById("dashStreak").textContent = `${user.streak || 1} DAYS`;
+
+        // Monthly challenge calculation (Target: 25 kg)
+        const targetKg = 25.0;
+        const currentKg = Math.min(user.totalWaste || 0, targetKg);
+        const percent = Math.min(100, Math.round((currentKg / targetKg) * 100));
+        document.getElementById("challengeProgressBar").style.width = `${percent}%`;
+        document.getElementById("challengeProgressText").textContent = `${currentKg.toFixed(1)} / ${targetKg} KG`;
+        document.getElementById("challengePercent").textContent = `${percent}% Completed`;
+
+        // Environmental impact calculation
+        const impact = calculateEnvironmentalImpact(user);
+        document.getElementById("dashCo2Saved").textContent = `${impact.co2Kg} kg`;
+        document.getElementById("dashTreesEquiv").textContent = `${impact.trees}`;
+
+        // Populate Recent Transactions Table
+        const tbody = document.getElementById("dashTxTable");
+        const txs = (user.recyclingTransactions || []).slice(0, 5);
+
+        if (txs.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align:center; padding: 28px; color: var(--text-secondary);">
+                        No recycling transactions yet. <a href="recycle.html" style="color:var(--green); font-weight:700;">Start your first drop now!</a>
+                    </td>
+                </tr>
+            `;
+        } else {
+            tbody.innerHTML = txs.map(tx => {
+                const isPositive = tx.points > 0;
+                const ptsClass = isPositive ? "color: var(--green);" : "color: #ff5e7e;";
+                const ptsSign = isPositive ? "+" : "";
+                const valSign = tx.rewardValue > 0 ? "+₹" : "-₹";
+                const valAbs = Math.abs(tx.rewardValue).toFixed(2);
+
+                return `
+                    <tr>
+                        <td>
+                            <strong>${tx.date}</strong><br>
+                            <span style="font-size:0.75rem; color:var(--text-secondary); font-family:monospace;">${tx.id}</span>
+                        </td>
+                        <td>
+                            <strong>${tx.category || tx.type}</strong><br>
+                            <span style="font-size:0.75rem; color:var(--text-secondary);">${tx.centerName || tx.description || 'MSTC Partner'}</span>
+                        </td>
+                        <td>${tx.weight ? tx.weight + ' kg' : '—'}</td>
+                        <td style="${ptsClass} font-weight:750;">${ptsSign}${tx.points} MSTC</td>
+                        <td style="font-weight:700;">${valSign}${valAbs}</td>
+                        <td><span class="badge-verified">${tx.status || 'Verified ✓'}</span></td>
+                    </tr>
+                `;
+            }).join("");
+        }
+    });
+</script>
+</body>
+</html>

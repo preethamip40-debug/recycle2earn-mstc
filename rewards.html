@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards Marketplace | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">PARTNER REWARDS & VOUCHERS</span>
+            <h1 style="margin-top: 10px;">Rewards Marketplace</h1>
+            <p class="muted">Redeem MSTC Points for instant digital gift cards, shopping vouchers and verified payouts.</p>
+        </div>
+
+        <div class="user-chip">
+            <span class="user-pts">Your Balance: <strong id="rewardUserPts">1,250</strong> MSTC</span>
+            <span class="user-val" id="rewardUserVal">₹125.00</span>
+        </div>
+    </div>
+
+    <!-- REWARD CATEGORY FILTER BAR -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="filterVouchers('ALL', this)">All Rewards</button>
+        <button class="tab-btn" onclick="filterVouchers('Shopping', this)">🛍️ Shopping & Retail</button>
+        <button class="tab-btn" onclick="filterVouchers('Food', this)">🍔 Food & Dining</button>
+        <button class="tab-btn" onclick="filterVouchers('Cashback', this)">💳 Direct Bank / UPI</button>
+    </div>
+
+    <!-- VOUCHER CARDS GRID -->
+    <div class="grid grid-3" id="vouchersGrid" style="margin-top: 24px;">
+        <!-- Populated via JavaScript -->
+    </div>
+</main>
+
+<!-- VOUCHER REDEEM SUCCESS MODAL -->
+<div class="modal-overlay" id="voucherModal">
+    <div class="modal-box" style="text-align: center;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(145deg, #f5a623, #ff5e7e); color: #051d13; display: grid; place-items: center; font-size: 2.2rem; margin: 0 auto 16px;">
+            🎁
+        </div>
+
+        <span class="eyebrow" style="background: rgba(245, 166, 35, 0.15); color: #f5a623;">VOUCHER UNLOCKED – PROTOTYPE</span>
+        <h2 style="margin: 14px 0 6px; font-size: 1.8rem; color: #fff;" id="modalVoucherTitle">
+            ₹100 Amazon Pay Gift Voucher
+        </h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+            Your voucher code is ready to use at checkout.
+        </p>
+
+        <!-- PROMO CODE DISPLAY BOX -->
+        <div style="background: rgba(0,0,0,0.5); border: 2px dashed var(--green); border-radius: 16px; padding: 18px; margin-bottom: 24px; text-align: center;">
+            <span style="font-size: 0.78rem; color: var(--text-secondary); display: block; margin-bottom: 6px;">YOUR PROTOTYPE REDEMPTION CODE:</span>
+            <div style="font-size: 1.4rem; font-family: monospace; font-weight: 800; color: var(--green); letter-spacing: 2px;" id="modalPromoCode">
+                AMZ-MSTC-7829-ECO
+            </div>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 24px; font-size: 0.82rem; text-align: left;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Points Deducted:</span>
+                <strong style="color: #ff5e7e;" id="modalVoucherCost">-1,000 MSTC</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Remaining Balance:</span>
+                <strong style="color: var(--green);" id="modalVoucherNewBal">250 MSTC (₹25.00)</strong>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+            <button type="button" class="gradient-button" onclick="copyPromoCode()" style="flex:1; justify-content:center;">📋 Copy Code</button>
+            <a href="wallet.html" class="outline-button" style="flex:1; justify-content:center;">Go to Wallet</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let activeCatFilter = "ALL";
+
+    function filterVouchers(cat, btn) {
+        activeCatFilter = cat;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+        renderVouchers();
+    }
+
+    function renderVouchers() {
+        const grid = document.getElementById("vouchersGrid");
+        const list = (typeof VOUCHERS_CATALOG !== "undefined") ? VOUCHERS_CATALOG : [];
+        const user = getCurrentUser();
+
+        let filtered = list;
+        if (activeCatFilter !== "ALL") {
+            filtered = list.filter(v => v.category === activeCatFilter);
+        }
+
+        grid.innerHTML = filtered.map(v => {
+            const hasEnough = user && (user.mstcPoints >= v.points);
+            return `
+                <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                            <span style="font-size: 2.2rem;">${v.icon}</span>
+                            <span class="badge-verified">${v.tag}</span>
+                        </div>
+                        <span style="font-size: 0.8rem; color: var(--cyan); font-weight: 700; text-transform: uppercase;">${v.brand}</span>
+                        <h3 style="margin: 6px 0 10px; font-size: 1.15rem;">${v.title}</h3>
+                        <p style="font-size: 0.85rem; margin-bottom: 16px;">Redeem ₹${v.value} shopping credit for ${v.points.toLocaleString()} MSTC Points.</p>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border); padding-top: 14px; margin-top: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-size: 0.85rem; color: var(--text-secondary);">Cost:</span>
+                            <strong style="color: var(--green); font-size: 1.15rem;">${v.points.toLocaleString()} MSTC</strong>
+                        </div>
+
+                        ${hasEnough ? `
+                            <button type="button" class="gradient-button" onclick="redeemVoucher('${v.id}')" style="width: 100%; justify-content: center;">
+                                ⚡ Redeem Now (₹${v.value})
+                            </button>
+                        ` : `
+                            <button type="button" class="outline-button" disabled style="width: 100%; justify-content: center; opacity: 0.5; cursor: not-allowed;">
+                                🔒 Need ${v.points.toLocaleString()} MSTC
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    function redeemVoucher(voucherId) {
+        const list = (typeof VOUCHERS_CATALOG !== "undefined") ? VOUCHERS_CATALOG : [];
+        const voucher = list.find(v => v.id === voucherId);
+        if (!voucher) return;
+
+        const code = `${voucher.brand.substring(0,3).toUpperCase()}-MSTC-${Math.floor(1000 + Math.random()*9000)}-ECO`;
+
+        const res = redeemPoints({
+            type: "VOUCHER",
+            description: `${voucher.title} (Code: ${code})`,
+            pointsCost: voucher.points,
+            rupeesValue: voucher.value,
+            extraDetails: { brand: voucher.brand, code }
+        });
+
+        if (!res.success) {
+            showToast(res.message, "error");
+            return;
+        }
+
+        // Show Modal
+        document.getElementById("modalVoucherTitle").textContent = voucher.title;
+        document.getElementById("modalPromoCode").textContent = code;
+        document.getElementById("modalVoucherCost").textContent = `-${voucher.points.toLocaleString()} MSTC`;
+        document.getElementById("modalVoucherNewBal").textContent = `${res.remainingPoints.toLocaleString()} MSTC (₹${res.remainingRewardValue.toFixed(2)})`;
+
+        document.getElementById("voucherModal").classList.add("active");
+        showToast("Voucher Redeemed Successfully!", "success");
+
+        // Update UI
+        document.getElementById("rewardUserPts").textContent = res.remainingPoints.toLocaleString();
+        document.getElementById("rewardUserVal").textContent = `₹${res.remainingRewardValue.toFixed(2)}`;
+        renderVouchers();
+    }
+
+    function copyPromoCode() {
+        const code = document.getElementById("modalPromoCode").textContent.trim();
+        navigator.clipboard.writeText(code);
+        showToast("Promo Code copied to clipboard: " + code, "success");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("rewards");
+        document.getElementById("rewardUserPts").textContent = (user.mstcPoints || 0).toLocaleString();
+        document.getElementById("rewardUserVal").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+
+        renderVouchers();
+    });
+</script>
+</body>
+</html>

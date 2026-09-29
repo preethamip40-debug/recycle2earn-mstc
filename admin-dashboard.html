@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrator Analytics & Management | Recycle2Earn</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow" style="color:var(--cyan); border-color:rgba(98,220,228,0.3);">PLATFORM ADMINISTRATION</span>
+            <h1 style="margin-top: 10px;">Executive Analytics & Operations</h1>
+            <p class="muted">Real-time network oversight, circular material telemetry and anti-fraud monitoring.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="outline-button btn-sm" onclick="exportPlatformAudit()">📊 Export System Audit</button>
+            <a href="dashboard.html" class="gradient-button btn-sm">User Dashboard →</a>
+        </div>
+    </div>
+
+    <!-- 8 EXECUTIVE METRIC CARDS -->
+    <section class="stats-grid" style="grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 28px;">
+        <div class="stat-card">
+            <div class="label">TOTAL CITIZEN USERS</div>
+            <div class="number" style="color:var(--green);">1,284</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">+48 registered this week</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">TOTAL WASTE COLLECTED</div>
+            <div class="number" style="color:#fff;">12,840 KG</div>
+            <p style="font-size:0.75rem; color:var(--cyan); margin-top:4px;">12.8 Metric Tons diverted</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">MSTC POINTS ISSUED</div>
+            <div class="number" style="color:var(--green);">148,290</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">₹14,829 platform value</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">REWARDS REDEEMED</div>
+            <div class="number" style="color:#f5a623;">₹11,450</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Recharges & Utility Bills</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">ACTIVE HUBS</div>
+            <div class="number" style="color:var(--cyan);">7 Verified</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Across 5 major cities</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">PENDING VERIFICATIONS</div>
+            <div class="number" style="color:#f4cb83;">3 Queued</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">At scale depots</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">ANTI-FRAUD STATUS</div>
+            <div class="number" style="color:var(--green);">0 ALERTS</div>
+            <p style="font-size:0.75rem; color:var(--green); margin-top:4px;">All rules active ✓</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">CO₂ OFFSET TOTAL</div>
+            <div class="number" style="color:var(--green);">18.4 TONS</div>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-top:4px;">Certified carbon delta</p>
+        </div>
+    </section>
+
+    <!-- CHART ANALYTICS ROW -->
+    <section class="grid grid-3" style="margin-bottom: 28px;">
+        <div class="card" style="grid-column: span 1;">
+            <span class="eyebrow">DISTRIBUTION</span>
+            <h3 style="margin: 10px 0 16px;">Platform Intake by Material</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="adminCatChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card" style="grid-column: span 2;">
+            <span class="eyebrow" style="color:var(--cyan);">GROWTH TELEMETRY</span>
+            <h3 style="margin: 10px 0 16px;">Monthly Recycled Kilograms & MSTC Issuance</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="adminGrowthChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- OPERATING COLLECTION CENTERS MANAGEMENT -->
+    <div class="card" style="margin-bottom: 28px;">
+        <div class="section-header" style="margin-bottom: 16px;">
+            <div>
+                <h2>Managed Collection Hubs & Scale Stations</h2>
+                <p style="font-size:0.85rem;">Inspect active hardware nodes and scale status.</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Center ID</th>
+                        <th>Name & City</th>
+                        <th>Address</th>
+                        <th>Rating</th>
+                        <th>Cumulative Intake</th>
+                        <th>Scale Calibration</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="adminCentersTbody">
+                    <!-- Populated via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ANTI-FRAUD LOGS TABLE -->
+    <div class="card">
+        <div class="section-header" style="margin-bottom: 16px;">
+            <div>
+                <h2>Anti-Fraud Engine & Anomaly Audits</h2>
+                <p style="font-size:0.85rem;">System checks: QR geofencing, daily cap enforcement (500kg max/tx), scale hash verification.</p>
+            </div>
+            <span class="badge-verified">Shield Engine Active</span>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Check Timestamp</th>
+                        <th>Target Transaction</th>
+                        <th>Rule Evaluated</th>
+                        <th>Risk Score</th>
+                        <th>Ledger Proof</th>
+                        <th>Outcome</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="color:var(--text-secondary);">Today, 10:45 AM</td>
+                        <td style="font-family:monospace; color:var(--cyan);">TX-MSTC-88219</td>
+                        <td>Single Tx Scale Cap (&lt;500 kg)</td>
+                        <td style="color:var(--green); font-weight:bold;">0.01 (Clean)</td>
+                        <td style="font-family:monospace; font-size:0.75rem;">0x4e78c...d912</td>
+                        <td><span class="badge-verified">Approved ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-secondary);">Yesterday, 04:20 PM</td>
+                        <td style="font-family:monospace; color:var(--cyan);">TX-MSTC-87910</td>
+                        <td>QR Token Timestamp Hash</td>
+                        <td style="color:var(--green); font-weight:bold;">0.02 (Clean)</td>
+                        <td style="font-family:monospace; font-size:0.75rem;">0x98f12...33cb</td>
+                        <td><span class="badge-verified">Approved ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td style="color:var(--text-secondary);">Sep 25, 2026</td>
+                        <td style="font-family:monospace; color:var(--cyan);">TX-RED-86402</td>
+                        <td>Minimum Redemption Balance</td>
+                        <td style="color:var(--green); font-weight:bold;">0.00 (Clean)</td>
+                        <td style="font-family:monospace; font-size:0.75rem;">0xa13bc...ee45</td>
+                        <td><span class="badge-verified">Approved ✓</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    function renderAdminCharts() {
+        // Material Doughnut
+        const ctxCat = document.getElementById("adminCatChart");
+        if (ctxCat) {
+            new Chart(ctxCat, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Metal', 'Plastic', 'E-waste', 'Paper', 'Batteries', 'Others'],
+                    datasets: [{
+                        data: [4200, 3800, 2100, 1800, 600, 340],
+                        backgroundColor: ['#f5a623', '#39d98a', '#22d9ff', '#62dce4', '#ff5e7e', '#a27bf6'],
+                        borderWidth: 2,
+                        borderColor: '#0b1712'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#9aaba2', boxWidth: 10, font: { size: 10 } } } }
+                }
+            });
+        }
+
+        // Growth Chart
+        const ctxGrowth = document.getElementById("adminGrowthChart");
+        if (ctxGrowth) {
+            new Chart(ctxGrowth, {
+                type: 'line',
+                data: {
+                    labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep (MTD)'],
+                    datasets: [
+                        {
+                            label: 'Material Collected (kg)',
+                            data: [1800, 2900, 4800, 8900, 12840],
+                            borderColor: '#39d98a',
+                            backgroundColor: 'rgba(57,217,138,0.1)',
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'MSTC Points Issued (x10)',
+                            data: [2100, 3400, 5600, 10200, 14829],
+                            borderColor: '#22d9ff',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9aaba2' } },
+                        x: { grid: { display: false }, ticks: { color: '#9aaba2' } }
+                    },
+                    plugins: { legend: { labels: { color: '#9aaba2' } } }
+                }
+            });
+        }
+    }
+
+    function renderAdminCenters() {
+        const tbody = document.getElementById("adminCentersTbody");
+        const list = (typeof COLLECTION_CENTERS !== "undefined") ? COLLECTION_CENTERS : [];
+
+        tbody.innerHTML = list.map(c => `
+            <tr>
+                <td style="font-family:monospace; color:var(--cyan); font-weight:700;">${c.id}</td>
+                <td><strong>${c.name}</strong><br><span style="font-size:0.75rem; color:var(--text-secondary);">${c.city}</span></td>
+                <td style="font-size:0.8rem; color:var(--text-secondary);">${c.address}</td>
+                <td>⭐ ${c.rating}</td>
+                <td style="font-weight:750; color:var(--green);">${c.totalCollected}</td>
+                <td><span style="color:var(--green); font-size:0.8rem;">✓ Calibrated</span></td>
+                <td><span class="badge-verified">Active</span></td>
+                <td>
+                    <button class="outline-button btn-sm" onclick="showToast('Diagnostic ping sent to ${c.id}: Scale Online!', 'success')" style="padding:4px 8px; font-size:0.72rem;">
+                        Ping Scale
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    function exportPlatformAudit() {
+        showToast("Platform Environmental & Financial Audit Log downloaded (Simulated JSON/CSV).", "success");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderNavbar("admin");
+        renderAdminCharts();
+        renderAdminCenters();
+    });
+</script>
+</body>
+</html>

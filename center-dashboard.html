@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Center Operator Portal | Recycle2Earn</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow" style="color:var(--cyan); border-color:rgba(98,220,228,0.3);">OPERATOR WORKSTATION • HUB #001</span>
+            <h1 style="margin-top: 10px;">GreenCycle Hub Bengaluru</h1>
+            <p class="muted">Digital scale verification terminal, incoming user hand-offs and station QR dispatch.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="gradient-button btn-sm" onclick="showStationQRModal()">📱 Station QR Token</button>
+            <a href="admin-dashboard.html" class="outline-button btn-sm">Admin View →</a>
+        </div>
+    </div>
+
+    <!-- STATION METRICS CARDS -->
+    <section class="stats-grid" style="margin-bottom: 28px;">
+        <div class="stat-card">
+            <div class="label">TODAY'S INTAKE</div>
+            <div class="number" id="stationTodayKg" style="color:var(--green);">42.8 KG</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">14 Verified Drop-offs</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">MONTHLY RECOVERY</div>
+            <div class="number" id="stationMonthKg">1,250 KG</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Target: 1,500 KG</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">MSTC POINTS ISSUED</div>
+            <div class="number" id="stationPointsIssued" style="color:var(--cyan);">18,420</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Direct community rewards</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">SCALE CALIBRATION</div>
+            <div class="number" style="color:var(--green); font-size:1.6rem;">CERTIFIED ✓</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Zero drift • ISO 14001</p>
+        </div>
+    </section>
+
+    <!-- INCOMING VERIFICATION QUEUE -->
+    <div class="card">
+        <div class="section-header" style="margin-bottom: 18px;">
+            <div>
+                <h2>Incoming Drop-Off Submissions</h2>
+                <p style="font-size:0.85rem;">Verify scale weights, material contamination checks, and approve instant wallet minting.</p>
+            </div>
+            <button class="outline-button btn-sm" onclick="addNewSimulatedDrop()">+ Simulate User Drop-off</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Queue ID</th>
+                        <th>User ID & Name</th>
+                        <th>Material Type</th>
+                        <th>Scale Weight</th>
+                        <th>Calculated MSTC</th>
+                        <th>QR Token</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="queueTbody">
+                    <!-- Populated via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- STATION QR MODAL -->
+<div class="modal-overlay" id="stationQrModal">
+    <div class="modal-box" style="text-align: center;">
+        <button class="modal-close" onclick="closeStationQRModal()">✕</button>
+
+        <span class="eyebrow" style="margin-bottom: 12px;">ACTIVE HUB VERIFICATION QR</span>
+        <h2 style="margin: 10px 0 4px; color:#fff;">GreenCycle Hub Station</h2>
+        <p class="muted" style="font-size: 0.85rem; margin-bottom: 20px;">Display this station QR code for customers to scan during material hand-off.</p>
+
+        <div style="width: 200px; height: 200px; margin: 0 auto 16px; background: #fff; padding: 12px; border-radius: 16px; display: grid; place-items: center; border: 4px solid var(--green);">
+            <div style="width:100%; height:100%; background:repeating-linear-gradient(45deg, #07100c, #07100c 10px, #fff 10px, #fff 20px); border-radius: 8px;"></div>
+        </div>
+
+        <div style="font-family: monospace; color: var(--green); font-size: 0.95rem; font-weight: 700; margin-bottom: 16px;">
+            QR-AUTH-BLR-001-ACTIVE
+        </div>
+
+        <button class="gradient-button btn-sm" onclick="showToast('Station QR refreshed & synced to cloud ledger!', 'success')" style="width: 100%; justify-content: center;">
+            🔄 Rotate Station Token
+        </button>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let queueItems = [
+        {
+            id: "SUB-9901",
+            userId: "USR-MSTC-78291",
+            userName: "Arjun Sharma",
+            category: "Metal",
+            weight: 2.0,
+            points: 30,
+            qrToken: "QR-AUTH-BLR-001-OK",
+            status: "Pending Scale Check"
+        },
+        {
+            id: "SUB-9902",
+            userId: "USR-MSTC-48192",
+            userName: "Kavitha Sundaram",
+            category: "E-waste",
+            weight: 4.5,
+            points: 112,
+            qrToken: "QR-AUTH-BLR-002-OK",
+            status: "Pending Scale Check"
+        },
+        {
+            id: "SUB-9903",
+            userId: "USR-MSTC-31902",
+            userName: "Dr. Ananya Ray",
+            category: "Plastic",
+            weight: 8.0,
+            points: 80,
+            qrToken: "QR-AUTH-BLR-003-OK",
+            status: "Pending Scale Check"
+        }
+    ];
+
+    function renderQueue() {
+        const tbody = document.getElementById("queueTbody");
+        if (queueItems.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align:center; padding:32px; color:var(--text-secondary);">
+                        All pending submissions have been verified and processed!
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = queueItems.map((item, idx) => `
+            <tr>
+                <td style="font-family:monospace; color:var(--cyan); font-weight:700;">${item.id}</td>
+                <td>
+                    <strong>${item.userName}</strong><br>
+                    <span style="font-size:0.75rem; color:var(--text-secondary); font-family:monospace;">${item.userId}</span>
+                </td>
+                <td><strong>${item.category}</strong></td>
+                <td style="font-weight:750; color:#fff;">${item.weight.toFixed(1)} kg</td>
+                <td style="color:var(--green); font-weight:750;">+${item.points} MSTC</td>
+                <td style="font-family:monospace; font-size:0.75rem; color:var(--text-secondary);">${item.qrToken}</td>
+                <td><span class="badge-pending">${item.status}</span></td>
+                <td>
+                    <div style="display:flex; gap:6px;">
+                        <button class="gradient-button btn-sm" onclick="approveQueueItem(${idx})" style="padding:4px 10px; font-size:0.75rem;">
+                            ✓ Verify
+                        </button>
+                        <button class="outline-button btn-sm" onclick="rejectQueueItem(${idx})" style="padding:4px 10px; font-size:0.75rem; border-color:#ff5e7e; color:#ff5e7e;">
+                            ✕ Reject
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join("");
+    }
+
+    function approveQueueItem(idx) {
+        const item = queueItems[idx];
+        if (!item) return;
+
+        showToast(`Verified ${item.weight} kg ${item.category} for ${item.userName}. +${item.points} MSTC Minted!`, "success");
+        queueItems.splice(idx, 1);
+        renderQueue();
+    }
+
+    function rejectQueueItem(idx) {
+        const item = queueItems[idx];
+        if (!item) return;
+
+        showToast(`Submission ${item.id} rejected (Material Contamination / Weight Mismatch).`, "error");
+        queueItems.splice(idx, 1);
+        renderQueue();
+    }
+
+    function addNewSimulatedDrop() {
+        const newId = "SUB-" + Math.floor(1000 + Math.random()*9000);
+        const categories = ["Metal", "E-waste", "Plastic", "Batteries", "Textiles"];
+        const chosenCat = categories[Math.floor(Math.random() * categories.length)];
+        const weight = Number((1 + Math.random()*8).toFixed(1));
+        const rate = chosenCat === "E-waste" ? 25 : chosenCat === "Batteries" ? 30 : chosenCat === "Metal" ? 15 : 10;
+        const points = Math.round(weight * rate);
+
+        queueItems.unshift({
+            id: newId,
+            userId: "USR-MSTC-" + Math.floor(10000 + Math.random()*90000),
+            userName: "Simulated Recycler " + Math.floor(10 + Math.random()*90),
+            category: chosenCat,
+            weight: weight,
+            points: points,
+            qrToken: "QR-AUTH-BLR-LIVE",
+            status: "Pending Scale Check"
+        });
+
+        showToast("New live user drop-off queued at scale #1!", "info");
+        renderQueue();
+    }
+
+    function showStationQRModal() {
+        document.getElementById("stationQrModal").classList.add("active");
+    }
+
+    function closeStationQRModal() {
+        document.getElementById("stationQrModal").classList.remove("active");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderNavbar("centers");
+        renderQueue();
+    });
+</script>
+</body>
+</html>

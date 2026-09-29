@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <a href="../index.html" class="brand">
+        <div class="brand-icon">♻</div>
+        <span>Recycle<span style="color:var(--green)">2Earn</span></span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="centers.html">Collection Centers</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="support.html">Help & FAQ</a>
+    </nav>
+
+    <div>
+        <a href="../index.html" class="outline-button btn-sm">← Back to Home</a>
+    </div>
+</header>
+
+<main class="form-page">
+    <div class="form-card" style="width: min(100%, 480px);">
+        <div style="text-align: center; margin-bottom: 24px;">
+            <div class="brand-icon" style="margin: 0 auto 12px; width: 48px; font-size: 1.4rem;">♻</div>
+            <h1 style="font-size: 2rem; margin-bottom: 6px;">Recycle<span style="color:var(--green)">2Earn</span></h1>
+            <p class="muted" style="font-size: 0.9rem; margin-bottom: 0;">Turn verified waste into MSTC Points & everyday utility rewards</p>
+        </div>
+
+        <!-- TAB SWITCHER -->
+        <div class="tab-bar" style="justify-content: center; margin-bottom: 24px; border-bottom: none; gap: 10px;">
+            <button class="tab-btn active" id="tabLogin" onclick="switchAuthMode('login')" style="flex: 1; text-align: center; padding: 10px;">Sign In</button>
+            <button class="tab-btn" id="tabRegister" onclick="switchAuthMode('register')" style="flex: 1; text-align: center; padding: 10px;">Create Account</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="e.g. arjun@recycle2earn.org" required value="arjun@recycle2earn.org">
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" required value="password123">
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 16px 0; font-size: 0.85rem;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-secondary);">
+                    <input type="checkbox" id="rememberMe" checked style="width: auto; min-height: auto;"> Remember login state
+                </label>
+                <a href="#" onclick="showToast('Password reset link simulated sent to email!', 'info'); return false;" style="color: var(--cyan);">Forgot?</a>
+            </div>
+
+            <button type="submit" class="gradient-button" style="width: 100%; justify-content: center;">
+                Sign In to Dashboard →
+            </button>
+
+            <!-- DEMO LOGIN QUICK ACTION -->
+            <button type="button" onclick="quickDemoLogin()" class="outline-button" style="width: 100%; justify-content: center; margin-top: 12px; font-size: 0.85rem; border-color: rgba(98, 220, 228, 0.4);">
+                ⚡ Fast Login as Demo User (Arjun - 1,250 MSTC)
+            </button>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
+            <div class="form-group">
+                <label for="regName">Full Name</label>
+                <input type="text" id="regName" placeholder="e.g. Priya Sharma" required>
+            </div>
+
+            <div class="form-group">
+                <label for="regEmail">Email Address</label>
+                <input type="email" id="regEmail" placeholder="e.g. priya@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="regPhone">Phone Number</label>
+                <input type="tel" id="regPhone" placeholder="e.g. +91 98765 00000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="regPassword">Create Password</label>
+                <input type="password" id="regPassword" placeholder="At least 6 characters" minlength="6" required>
+            </div>
+
+            <div class="form-group">
+                <label for="regConfirmPassword">Confirm Password</label>
+                <input type="password" id="regConfirmPassword" placeholder="Confirm your password" minlength="6" required>
+            </div>
+
+            <button type="submit" class="gradient-button" style="width: 100%; justify-content: center; margin-top: 12px;">
+                Create Account & Get 50 Welcome Pts →
+            </button>
+        </form>
+
+        <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); text-align: center; font-size: 0.82rem; color: var(--text-secondary);">
+            By continuing, you agree to Recycle2Earn prototype sustainability terms & reward rules.
+        </div>
+    </div>
+</main>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    function switchAuthMode(mode) {
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+        const tabLogin = document.getElementById("tabLogin");
+        const tabRegister = document.getElementById("tabRegister");
+
+        if (mode === 'login') {
+            loginForm.style.display = "block";
+            registerForm.style.display = "none";
+            tabLogin.classList.add("active");
+            tabRegister.classList.remove("active");
+        } else {
+            loginForm.style.display = "none";
+            registerForm.style.display = "block";
+            tabRegister.classList.add("active");
+            tabLogin.classList.remove("active");
+        }
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value.trim();
+        const pass = document.getElementById("loginPassword").value;
+
+        const res = loginUser(email, pass);
+        if (res.success) {
+            showToast("Welcome back, " + res.user.name + "!", "success");
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 500);
+        } else {
+            showToast(res.message, "error");
+        }
+    }
+
+    function quickDemoLogin() {
+        const user = DEFAULT_SAMPLE_USER;
+        saveCurrentUser(user);
+        showToast("Logged in as Demo User: " + user.name, "success");
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 400);
+    }
+
+    function handleRegister(e) {
+        e.preventDefault();
+        const name = document.getElementById("regName").value.trim();
+        const email = document.getElementById("regEmail").value.trim();
+        const phone = document.getElementById("regPhone").value.trim();
+        const pass = document.getElementById("regPassword").value;
+        const confirmPass = document.getElementById("regConfirmPassword").value;
+
+        if (pass !== confirmPass) {
+            showToast("Passwords do not match!", "error");
+            return;
+        }
+
+        const res = registerUser(name, email, phone, pass);
+        if (res.success) {
+            showToast("Account created successfully! Redirecting to Dashboard...", "success");
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 600);
+        } else {
+            showToast(res.message, "error");
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // If user already logged in, redirect to dashboard or offer seamless switch
+        const user = getCurrentUser();
+        if (user && window.location.search.includes("autologin")) {
+            window.location.href = "dashboard.html";
+        }
+    });
+</script>
+</body>
+</html>

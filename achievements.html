@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements & Badges | Recycle2Earn</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">GAMIFIED ECO REWARDS</span>
+            <h1 style="margin-top: 10px;">Achievements & Streaks</h1>
+            <p class="muted">Unlock exclusive badges, bonus MSTC Points and recognition for consistent recycling habits.</p>
+        </div>
+
+        <div class="user-chip">
+            <span class="user-pts">🔥 Streak: <strong id="streakCountTop">5</strong> Days</span>
+            <span class="user-val">🪙 +50 Pts Next</span>
+        </div>
+    </div>
+
+    <!-- STREAK BANNER HERO -->
+    <section class="wallet-card" style="margin-bottom: 28px; background: radial-gradient(ellipse at 90% 10%, rgba(245, 166, 35, 0.15), transparent 45%), linear-gradient(135deg, #1d3324, #0b1712);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
+            <div>
+                <span class="balance-label" style="color:#f5a623;">DAILY RECYCLING ENGAGEMENT</span>
+                <div style="display:flex; align-items:center; gap:14px; margin-top:8px;">
+                    <span style="font-size:3rem;">🔥</span>
+                    <div>
+                        <div style="font-size:2.2rem; font-weight:800; color:#fff;" id="streakHeroDays">5-Day Active Streak!</div>
+                        <p class="muted" style="margin:0; font-size:0.85rem;">Recycle again within 48 hours to preserve your bonus tier multiplier.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+                <div style="text-align:center; padding:10px 14px; background:rgba(57,217,138,0.15); border:1px solid var(--green); border-radius:12px;">
+                    <span style="font-size:0.75rem; color:var(--text-secondary); display:block;">DAY 1</span>
+                    <strong style="color:var(--green);">✓ Done</strong>
+                </div>
+                <div style="text-align:center; padding:10px 14px; background:rgba(57,217,138,0.15); border:1px solid var(--green); border-radius:12px;">
+                    <span style="font-size:0.75rem; color:var(--text-secondary); display:block;">DAY 2</span>
+                    <strong style="color:var(--green);">✓ Done</strong>
+                </div>
+                <div style="text-align:center; padding:10px 14px; background:rgba(57,217,138,0.15); border:1px solid var(--green); border-radius:12px;">
+                    <span style="font-size:0.75rem; color:var(--text-secondary); display:block;">DAY 3</span>
+                    <strong style="color:var(--green);">✓ Done</strong>
+                </div>
+                <div style="text-align:center; padding:10px 14px; background:rgba(57,217,138,0.15); border:1px solid var(--green); border-radius:12px;">
+                    <span style="font-size:0.75rem; color:var(--text-secondary); display:block;">DAY 4</span>
+                    <strong style="color:var(--green);">✓ Done</strong>
+                </div>
+                <div style="text-align:center; padding:10px 14px; background:rgba(57,217,138,0.25); border:2px solid var(--green); border-radius:12px; box-shadow:0 0 14px rgba(57,217,138,0.4);">
+                    <span style="font-size:0.75rem; color:#fff; display:block;">TODAY</span>
+                    <strong style="color:var(--green);">🔥 Active</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACHIEVEMENTS LIST -->
+    <div class="card">
+        <div class="section-header" style="margin-bottom: 20px;">
+            <div>
+                <h2>Your Unlocked & Upcoming Badges</h2>
+                <p style="font-size:0.85rem;">Each badge adds permanent reputation and bonus points to your profile.</p>
+            </div>
+            <span class="badge-verified" id="unlockedCountBadge">3 / 7 Unlocked</span>
+        </div>
+
+        <div class="grid grid-2" id="achievementsGrid" style="grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:18px;">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    function renderAchievements() {
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const list = (typeof ACHIEVEMENTS_LIST !== "undefined") ? ACHIEVEMENTS_LIST : [];
+        const userBadges = user.achievements || [];
+        const grid = document.getElementById("achievementsGrid");
+
+        document.getElementById("streakCountTop").textContent = user.streak || 5;
+        document.getElementById("streakHeroDays").textContent = `${user.streak || 5}-Day Active Streak!`;
+        document.getElementById("unlockedCountBadge").textContent = `${userBadges.length} / ${list.length} Unlocked`;
+
+        grid.innerHTML = list.map(item => {
+            const isUnlocked = userBadges.includes(item.id);
+
+            return `
+                <div class="achievement-card ${isUnlocked ? 'unlocked' : ''}">
+                    <div class="achievement-icon">
+                        ${item.icon}
+                    </div>
+                    <div style="flex:1;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                            <strong style="font-size:1.05rem; color:#fff;">${item.title}</strong>
+                            <span class="${isUnlocked ? 'badge-verified' : 'badge-pending'}">
+                                ${isUnlocked ? '✓ Unlocked' : 'Locked'}
+                            </span>
+                        </div>
+                        <p style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:8px;">${item.description}</p>
+                        <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                            <span style="color:var(--text-secondary);">Requirement: <strong style="color:#fff;">${item.requirement}</strong></span>
+                            <strong style="color:var(--green);">+${item.pointsBonus} Bonus MSTC</strong>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("achievements");
+        renderAchievements();
+    });
+</script>
+</body>
+</html>
