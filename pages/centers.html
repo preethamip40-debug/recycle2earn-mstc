@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Centers Directory | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">OFFICIAL COLLECTION NETWORK</span>
+            <h1 style="margin-top: 10px;">Verified Collection Centers</h1>
+            <p class="muted">Find authorized drop-off depots with calibrated digital scales and verified QR verification stations.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <a href="center-dashboard.html" class="outline-button btn-sm" style="color:var(--cyan); border-color:rgba(98,220,228,0.3);">Center Operator Portal 🔐</a>
+            <a href="recycle.html" class="gradient-button btn-sm">+ Start Drop-off</a>
+        </div>
+    </div>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="card" style="margin-bottom: 24px; padding: 18px 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <div style="flex: 1; min-width: 260px;">
+                <input type="text" id="centerSearchInput" placeholder="🔍 Search by hub name, locality or city..." oninput="handleCenterFilter()">
+            </div>
+
+            <div class="tab-bar" style="border-bottom:none; margin:0; padding:0;">
+                <button class="tab-btn active" onclick="setCityFilter('ALL', this)">All Cities</button>
+                <button class="tab-btn" onclick="setCityFilter('Bengaluru', this)">Bengaluru</button>
+                <button class="tab-btn" onclick="setCityFilter('Mysuru', this)">Mysuru</button>
+                <button class="tab-btn" onclick="setCityFilter('Hassan', this)">Hassan</button>
+                <button class="tab-btn" onclick="setCityFilter('Mumbai', this)">Mumbai</button>
+                <button class="tab-btn" onclick="setCityFilter('New Delhi', this)">New Delhi</button>
+                <button class="tab-btn" onclick="setCityFilter('Hyderabad', this)">Hyderabad</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CENTERS GRID -->
+    <div class="grid grid-3" id="centersGrid">
+        <!-- Populated via JavaScript -->
+    </div>
+</main>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let activeCity = "ALL";
+    let searchTxt = "";
+
+    function setCityFilter(city, btn) {
+        activeCity = city;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+        renderCentersList();
+    }
+
+    function handleCenterFilter() {
+        searchTxt = document.getElementById("centerSearchInput").value.toLowerCase().trim();
+        renderCentersList();
+    }
+
+    function renderCentersList() {
+        const grid = document.getElementById("centersGrid");
+        const list = (typeof COLLECTION_CENTERS !== "undefined") ? COLLECTION_CENTERS : [];
+
+        let filtered = list;
+        if (activeCity !== "ALL") {
+            filtered = list.filter(c => c.city.toLowerCase() === activeCity.toLowerCase());
+        }
+
+        if (searchTxt) {
+            filtered = filtered.filter(c => 
+                c.name.toLowerCase().includes(searchTxt) ||
+                c.city.toLowerCase().includes(searchTxt) ||
+                c.address.toLowerCase().includes(searchTxt) ||
+                c.id.toLowerCase().includes(searchTxt)
+            );
+        }
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `
+                <div class="card" style="grid-column: span 3; text-align: center; padding: 40px;">
+                    <p style="color: var(--text-secondary); margin: 0;">No collection centers found matching your criteria.</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = filtered.map(c => `
+            <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                        <span class="badge-verified">✓ ${c.status || 'Verified'}</span>
+                        <span class="blockchain-badge">${c.id}</span>
+                    </div>
+
+                    <h3 style="margin: 6px 0 8px; font-size: 1.25rem;">${c.name}</h3>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:12px;">📍 ${c.address}</p>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.8rem; background:rgba(255,255,255,0.03); padding:10px; border-radius:10px; border:1px solid var(--border); margin-bottom:14px;">
+                        <div>🕒 <strong style="color:#fff;">${c.hours}</strong></div>
+                        <div>⭐ <strong style="color:var(--green);">${c.rating} / 5.0</strong></div>
+                        <div>📞 <strong style="color:var(--text-secondary);">${c.phone || '+91 80 2520 8891'}</strong></div>
+                        <div>♻️ <strong style="color:var(--cyan);">${c.totalCollected}</strong></div>
+                    </div>
+
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--text-secondary); display:block; margin-bottom:6px;">ACCEPTED MATERIALS:</span>
+                        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                            ${(c.acceptedCategories || ['Plastic', 'Metal', 'E-waste']).map(tag => `
+                                <span style="font-size:0.72rem; padding:3px 8px; background:rgba(57,217,138,0.08); border:1px solid rgba(57,217,138,0.2); border-radius:6px; color:var(--text-primary);">${tag}</span>
+                            `).join("")}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px; border-top:1px solid var(--border); padding-top:14px;">
+                    <a href="recycle.html" class="gradient-button btn-sm" style="width:100%; justify-content:center;">
+                        ♻️ Recycle at this Center →
+                    </a>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        renderNavbar("centers");
+        renderCentersList();
+    });
+</script>
+</body>
+</html>

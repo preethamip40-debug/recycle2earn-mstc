@@ -1,0 +1,20 @@
+{
+  "appName": "Recycle2Earn",
+  "rewardUnit": "MSTC Points",
+  "conversion": {
+    "points": 100,
+    "rewardValueINR": 10
+  },
+  "minimumRedemptionPoints": 1000,
+  "rates": {
+    "Plastic": 10,
+    "Paper & Cardboard": 5,
+    "Metal": 15,
+    "Glass": 7,
+    "E-waste": 25,
+    "Batteries": 30,
+    "Clothes & Textiles": 8,
+    "Used Cooking Oil": 12,
+    "Organic Waste": 3
+  }
+}

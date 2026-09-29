@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recycle2Earn – Powered by MSTC Rewards</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <a href="index.html" class="brand">
+        <div class="brand-icon">♻</div>
+        <span>Recycle<span style="color:var(--green)">2Earn</span></span>
+    </a>
+
+    <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav-links" id="mainNavLinks">
+        <a href="#how">How It Works</a>
+        <a href="#waste">Waste Categories</a>
+        <a href="#walk">Walk2Earn (10k Steps)</a>
+        <a href="#blockchain">MST Ledger</a>
+        <a href="#impact">Impact</a>
+        <a href="pages/walk.html" style="color:var(--cyan); font-weight:700;">🚶 Walk & Earn</a>
+        <a href="pages/centers.html">Centers</a>
+        <a href="pages/rewards.html">Rewards</a>
+        <a href="pages/dashboard.html">Dashboard</a>
+    </nav>
+
+    <div class="nav-auth-actions" id="navAuth">
+        <a href="pages/login.html" class="gradient-button">Start Recycling</a>
+    </div>
+</header>
+
+<main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div>
+            <span class="eyebrow">
+                ♻️ MSTC • DIGITAL CIRCULAR RECYCLING & MOBILITY PLATFORM
+            </span>
+
+            <h1>
+                Recycle More.<br>
+                <span>Earn More.</span>
+                Live Greener.
+            </h1>
+
+            <p>
+                Turn verified recycling and zero-emission walking into MSTC Rewards. Use your rewards for everyday mobile recharges, utility bills, shopping vouchers and supported payouts through a transparent ledger.
+            </p>
+
+            <div class="hero-actions">
+                <a href="pages/recycle.html" class="gradient-button">
+                    Start Recycling →
+                </a>
+                <a href="pages/walk.html" class="outline-button" style="border-color: rgba(98, 220, 228, 0.45); color: var(--cyan);">
+                    🚶 Walk & Earn (10k Steps)
+                </a>
+                <a href="pages/rewards.html" class="outline-button">
+                    Explore Rewards
+                </a>
+            </div>
+            
+            <div style="margin-top: 24px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--green); font-size: 1.2rem;">✓</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">100 MSTC = ₹10 Reward</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--cyan); font-size: 1.2rem;">✓</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">QR Verified Collection</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="color: var(--green); font-size: 1.2rem;">✓</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Instant Bill & Recharge Payouts</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Recycling impact overview">
+            <div class="hero-photo">
+                <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15?auto=format&fit=crop&w=1200&q=85"
+                     alt="Sorted recyclable materials ready for collection"
+                     fetchpriority="high">
+                <div class="hero-photo-caption">
+                    <strong>A clearer path from waste to worth.</strong>
+                    <span>Verified locally. Rewarded transparently.</span>
+                </div>
+            </div>
+
+            <span class="demo-pill">MSTC Demo Network · Live Prototype</span>
+
+            <div class="float-card card-one">
+                <strong>48.5 kg</strong>
+                <span>Demo User Recycled</span>
+            </div>
+
+            <div class="float-card card-two">
+                <strong>1,250 MSTC (₹125)</strong>
+                <span>Active Balance</span>
+            </div>
+
+            <div class="float-card card-three">
+                <strong>10,000 Steps / Day</strong>
+                <span>+75 MSTC Walk2Earn</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="eyebrow">STEP-BY-STEP VERIFICATION</span>
+                    <h2 style="margin-top:10px">How it works</h2>
+                </div>
+                <p>
+                    A transparent digital lifecycle connecting recyclers, authorized collection hubs, green walking and everyday rewards.
+                </p>
+            </div>
+
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="category-icon">01</div>
+                    <h3>1. Collect & Sort</h3>
+                    <p>Gather clean recyclable materials (plastic, paper, metal, e-waste, batteries, textiles) at home or work.</p>
+                </div>
+
+                <div class="card">
+                    <div class="category-icon">02</div>
+                    <h3>2. Scan QR at Center</h3>
+                    <p>Visit any nearby MSTC collection point and scan the center's QR code to authenticate the drop-off.</p>
+                </div>
+
+                <div class="card">
+                    <div class="category-icon">03</div>
+                    <h3>3. Verify Weight</h3>
+                    <p>The collection hub operator inspects the material grade and confirms certified digital scale weight.</p>
+                </div>
+
+                <div class="card">
+                    <div class="category-icon">04</div>
+                    <h3>4. Earn & Redeem</h3>
+                    <p>MSTC Points credit automatically to your wallet. Convert 100 MSTC = ₹10 for recharges, bills & vouchers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOCKCHAIN TRANSPARENCY SECTION -->
+    <section class="section blockchain-section" id="blockchain">
+        <div class="container chain-layout">
+            <div class="chain-copy">
+                <span class="eyebrow">MST BLOCKCHAIN · AUDITABLE REWARD RAIL</span>
+                <h2 style="margin:20px 0 14px">A transparent cryptographic record for every deposit.</h2>
+                <p>
+                    MST Blockchain records each verified recycling submission and daily step milestone with an immutable cryptographic transaction hash, timestamp, and certified weight. This prevents double-claiming, guarantees fraud prevention, and maintains open auditability.
+                </p>
+                <div class="chain-features">
+                    <span>Tamper-proof Reward Records</span>
+                    <span>Transparent Verification Trail</span>
+                    <span>Unique QR Station Signatures</span>
+                    <span>Instant Wallet Distribution</span>
+                </div>
+                <div class="demo-notice">
+                    🔒 <strong>PROTOTYPE LEDGER:</strong> Transaction hashes and block explorer records simulate real-time blockchain validation across our prototype network.
+                </div>
+            </div>
+
+            <div class="chain-flow" aria-label="Reward processing flow">
+                <div class="chain-node"><span>01</span><strong>Material Drop-off Handled</strong></div>
+                <div class="chain-connector" aria-hidden="true"></div>
+                <div class="chain-node"><span>02</span><strong>Collection Center QR Signature</strong></div>
+                <div class="chain-connector" aria-hidden="true"></div>
+                <div class="chain-node"><span>03</span><strong>Weight & Grade Certification</strong></div>
+                <div class="chain-connector" aria-hidden="true"></div>
+                <div class="chain-node"><span>04</span><strong>MST Ledger Minting (0xTX...)</strong></div>
+                <div class="chain-connector" aria-hidden="true"></div>
+                <div class="chain-node"><span>05</span><strong>MSTC Wallet Reward Balance Ready</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WASTE CATEGORIES GRID -->
+    <section class="section" id="waste">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="eyebrow">CONFIGURED REWARD RATES</span>
+                    <h2 style="margin-top:10px">Waste Categories & MSTC Points</h2>
+                </div>
+                <p>
+                    Nine distinct waste categories designed to divert hazardous and high-value materials from landfills.
+                </p>
+            </div>
+
+            <div class="grid grid-3" id="categoryGrid">
+                <!-- Dynamically populated from js/data.js -->
+            </div>
+        </div>
+    </section>
+
+    <!-- WALK2EARN 10,000 STEPS SECTION -->
+    <section class="section" id="walk" style="background: radial-gradient(ellipse at 50% 50%, rgba(34, 217, 255, 0.08), transparent 60%), rgba(7, 16, 12, 0.45); border-block: 1px solid rgba(221, 245, 232, 0.06);">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="eyebrow" style="color:var(--cyan); border-color:rgba(98,220,228,0.3);">🌱 ZERO EMISSION COMMUTE</span>
+                    <h2 style="margin-top:10px">Walk2Earn: 10,000 Steps Daily Challenge</h2>
+                </div>
+                <p>
+                    Reduce urban carbon footprint by walking. Hit 10,000 daily steps and earn guaranteed MSTC Points directly in your rewards wallet.
+                </p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="card" style="border-color: rgba(98,220,228,0.3);">
+                    <div style="font-size:2.2rem; margin-bottom:12px;">🚶</div>
+                    <span class="eyebrow" style="margin-bottom:8px; display:inline-block;">STEP 01</span>
+                    <h3>Track & Walk Daily</h3>
+                    <p>Track your steps through Google Fit, Apple Health or our built-in pedometer simulation sensor.</p>
+                </div>
+
+                <div class="card" style="border-color: rgba(57,217,138,0.3);">
+                    <div style="font-size:2.2rem; margin-bottom:12px;">🏆</div>
+                    <span class="eyebrow" style="margin-bottom:8px; display:inline-block;">STEP 02</span>
+                    <h3>Hit 10,000 Steps Goal</h3>
+                    <p>Reach 10,000 steps (~7.5 km) to offset 1.85 kg of vehicle CO₂ emissions and burn ~400 active calories.</p>
+                </div>
+
+                <div class="card" style="border-color: rgba(245,166,35,0.3);">
+                    <div style="font-size:2.2rem; margin-bottom:12px;">🪙</div>
+                    <span class="eyebrow" style="margin-bottom:8px; display:inline-block;">STEP 03</span>
+                    <h3>Earn +75 MSTC Points</h3>
+                    <p>Claim ₹7.50 reward value daily. Combine with recycling to accelerate your mobile recharges & bill savings!</p>
+                    <a href="pages/walk.html" class="gradient-button btn-sm" style="margin-top:16px;">Open Step Tracker →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENVIRONMENTAL IMPACT SECTION -->
+    <section class="section" id="impact">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="eyebrow">MEASURABLE SUSTAINABILITY</span>
+                    <h2 style="margin-top:10px">Ecosystem Environmental Impact</h2>
+                </div>
+                <p>
+                    Every verified deposit and walking milestone directly contributes to measurable greenhouse gas reduction.
+                </p>
+            </div>
+
+            <div class="grid grid-4">
+                <div class="card">
+                    <div class="category-icon">♻️</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 750; color: var(--green); margin: 12px 0 4px;">12,840 KG</h3>
+                    <p style="font-weight:600; color:var(--text-primary);">Total Material Diverted</p>
+                    <p style="font-size:0.85rem;">Diverted from urban landfills across 7 active collection centers.</p>
+                </div>
+
+                <div class="card">
+                    <div class="category-icon">🌱</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 750; color: var(--cyan); margin: 12px 0 4px;">18.4 TON</h3>
+                    <p style="font-weight:600; color:var(--text-primary);">CO₂ Emissions Avoided</p>
+                    <p style="font-size:0.85rem;">Equivalent to planting over 840 mature carbon-absorbing trees.</p>
+                </div>
+
+                <div class="card">
+                    <div class="category-icon">⚡</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 750; color: #f5a623; margin: 12px 0 4px;">64,200 kWh</h3>
+                    <p style="font-weight:600; color:var(--text-primary);">Clean Energy Conserved</p>
+                    <p style="font-size:0.85rem;">Saved compared to extracting and refining virgin raw materials.</p>
+                </div>
+
+                <div class="card">
+                    <div class="category-icon">👥</div>
+                    <h3 style="font-size: 1.8rem; font-weight: 750; color: #a27bf6; margin: 12px 0 4px;">3,420+</h3>
+                    <p style="font-weight:600; color:var(--text-primary);">Verified Eco Citizens</p>
+                    <p style="font-size:0.85rem;">Active community members earning rewards on our platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REWARD CATALOG PREVIEW -->
+    <section class="section" id="rewards">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <span class="eyebrow">REDEEM YOUR WORTH</span>
+                    <h2 style="margin-top:10px">Use Your MSTC Points</h2>
+                </div>
+                <p>
+                    Convert verified points into phone recharges, utility bill discounts, grocery vouchers, or direct payouts.
+                </p>
+            </div>
+
+            <div class="grid grid-3">
+                <div class="card">
+                    <div style="font-size:2rem; margin-bottom:12px;">📱</div>
+                    <h3>Mobile Recharge</h3>
+                    <p>Top up prepaid numbers on Airtel, Jio, Vi, and BSNL starting at 200 MSTC (₹20).</p>
+                    <a href="pages/recharge.html" class="outline-button btn-sm" style="margin-top:14px;">Recharge Now →</a>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:2rem; margin-bottom:12px;">⚡</div>
+                    <h3>Electricity & Utility Bills</h3>
+                    <p>Apply up to 100% of your reward balance toward BESCOM, Tata Power, Water and Gas bills.</p>
+                    <a href="pages/bills.html" class="outline-button btn-sm" style="margin-top:14px;">Pay Bills →</a>
+                </div>
+
+                <div class="card">
+                    <div style="font-size:2rem; margin-bottom:12px;">🛍️</div>
+                    <h3>Vouchers & Cash Payout</h3>
+                    <p>Redeem e-gift cards for Amazon Pay, Flipkart, Swiggy, Zomato or direct bank UPI transfer.</p>
+                    <a href="pages/rewards.html" class="outline-button btn-sm" style="margin-top:14px;">Browse Catalog →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; text-align:left; margin-bottom:30px;">
+            <div>
+                <a href="index.html" class="brand">
+                    <div class="brand-icon">♻</div>
+                    <span>Recycle<span style="color:var(--green)">2Earn</span></span>
+                </a>
+                <p style="max-width:340px; margin-top:10px; font-size:0.85rem;">
+                    The digital circular economy platform powered by MSTC Points. Turn verified waste into actionable financial rewards.
+                </p>
+            </div>
+            <div style="display:flex; gap:30px; flex-wrap:wrap; font-size:0.88rem;">
+                <a href="pages/dashboard.html">User Dashboard</a>
+                <a href="pages/recycle.html">Recycle Flow</a>
+                <a href="pages/walk.html">Walk2Earn (10k)</a>
+                <a href="pages/wallet.html">Rewards Wallet</a>
+                <a href="pages/passport.html">Waste Passport</a>
+                <a href="pages/center-dashboard.html">Center Operator</a>
+                <a href="pages/admin-dashboard.html">Admin Portal</a>
+                <a href="pages/support.html">Help & FAQ</a>
+            </div>
+        </div>
+        <hr style="border:0; border-top:1px solid var(--border); margin:20px 0;">
+        <p style="font-size:0.8rem; margin:0;">
+            Recycle2Earn Prototype © 2026 • Powered by MSTC Rewards • Recycle More • Earn More • Live Greener
+        </p>
+    </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Render dynamic categories
+        const grid = document.getElementById("categoryGrid");
+        if (grid && typeof WASTE_CATEGORIES !== "undefined") {
+            grid.innerHTML = WASTE_CATEGORIES.map(item => `
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div class="category-icon">${item.icon}</div>
+                        <span class="badge-verified">${item.rate} MSTC / kg</span>
+                    </div>
+                    <h3>${item.name}</h3>
+                    <p style="font-size:0.88rem;">${item.description}</p>
+                    <div style="margin-top:14px; padding-top:10px; border-top:1px solid var(--border); display:flex; justify-content:space-between; font-size:0.78rem; color:var(--text-secondary);">
+                        <span>CO₂ factor: ${item.co2Factor}x</span>
+                        <a href="pages/recycle.html" style="color:var(--green); font-weight:700;">Recycle This →</a>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // Render Navbar user state
+        const user = getCurrentUser();
+        const authArea = document.getElementById("navAuth");
+        if (authArea && user) {
+            authArea.innerHTML = `
+                <div class="user-chip">
+                    <span class="user-pts">🪙 ${(user.mstcPoints || 0).toLocaleString()}</span>
+                    <span class="user-val">₹${(user.rewardValue || 0).toLocaleString()}</span>
+                </div>
+                <a href="pages/dashboard.html" class="gradient-button btn-sm">Dashboard</a>
+            `;
+        }
+
+        // Mobile toggle
+        const toggleBtn = document.getElementById("mobileToggle");
+        const navLinks = document.getElementById("mainNavLinks");
+        if (toggleBtn && navLinks) {
+            toggleBtn.addEventListener("click", () => {
+                navLinks.classList.toggle("open");
+            });
+        }
+    });
+</script>
+</body>
+</html>

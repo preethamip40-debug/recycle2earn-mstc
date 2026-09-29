@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History & Explorer | Recycle2Earn</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">AUDITABLE MSTC LEDGER</span>
+            <h1 style="margin-top: 10px;">Transaction Records & Explorer</h1>
+            <p class="muted">Search and verify all incoming recycling credits, recharge debits and utility redemptions.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <button class="outline-button btn-sm" onclick="exportTransactionsCSV()">📥 Export CSV</button>
+            <a href="wallet.html" class="gradient-button btn-sm">Wallet Overview →</a>
+        </div>
+    </div>
+
+    <!-- FILTER & SEARCH BAR -->
+    <div class="card" style="margin-bottom: 24px; padding: 18px 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+            <!-- SEARCH INPUT -->
+            <div style="flex: 1; min-width: 260px;">
+                <input type="text" id="txSearchInput" placeholder="🔍 Search by Transaction ID, Material, or Biller..." oninput="handleSearchFilter()">
+            </div>
+
+            <!-- TYPE FILTER -->
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="tab-btn active" onclick="setTxFilter('ALL', this)">All</button>
+                <button class="tab-btn" onclick="setTxFilter('RECYCLING', this)">♻️ Recycling</button>
+                <button class="tab-btn" onclick="setTxFilter('RECHARGE', this)">📱 Recharges</button>
+                <button class="tab-btn" onclick="setTxFilter('BILL_PAYMENT', this)">⚡ Bills</button>
+                <button class="tab-btn" onclick="setTxFilter('VOUCHER', this)">🎁 Vouchers</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRANSACTIONS TABLE -->
+    <div class="card">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Date & Time</th>
+                        <th>Category / Type</th>
+                        <th>Weight / Details</th>
+                        <th>Points Impact</th>
+                        <th>Reward Value</th>
+                        <th>Cryptographic Hash</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="fullTxTbody">
+                    <!-- Populated via JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- BLOCK DETAIL MODAL -->
+<div class="modal-overlay" id="blockModal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeBlockModal()">✕</button>
+
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+            <div style="width:40px; height:40px; border-radius:10px; background:rgba(98,220,228,0.15); border:1px solid var(--cyan); display:grid; place-items:center; color:var(--cyan); font-size:1.2rem;">
+                ⛓
+            </div>
+            <div>
+                <h3 style="margin:0; font-size:1.2rem;">MST Blockchain Explorer</h3>
+                <span style="font-size:0.75rem; color:var(--text-secondary);">Block Details & Cryptographic Audit Proof</span>
+            </div>
+        </div>
+
+        <div style="background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:16px; padding:18px; font-size:0.85rem; display:grid; gap:12px;">
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Transaction Hash:</span>
+                <span style="font-family:monospace; color:var(--cyan);" id="bmTxHash">0x4e78c...d912</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Block Number:</span>
+                <strong id="bmBlockNum">#148,291</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Activity Type:</span>
+                <strong id="bmType">RECYCLING</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Details:</span>
+                <span id="bmDetails">2.0 kg Metal @ GreenCycle Hub Bengaluru</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Points Transferred:</span>
+                <strong style="color:var(--green);" id="bmPoints">+30 MSTC</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Validator Signature:</span>
+                <span style="font-family:monospace; color:#f4cb83;">VAL-MSTC-CONSENSUS-POS</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Network Fee:</span>
+                <span style="color:var(--green);">0.00 MSTC (Subsidized by Platform)</span>
+            </div>
+        </div>
+
+        <div style="margin-top:20px; text-align:center;">
+            <button class="gradient-button btn-sm" onclick="closeBlockModal()" style="width:100%; justify-content:center;">Close Inspector</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let currentFilter = "ALL";
+    let searchQuery = "";
+
+    function setTxFilter(type, btn) {
+        currentFilter = type;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+        renderTransactions();
+    }
+
+    function handleSearchFilter() {
+        searchQuery = document.getElementById("txSearchInput").value.toLowerCase().trim();
+        renderTransactions();
+    }
+
+    function renderTransactions() {
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const tbody = document.getElementById("fullTxTbody");
+        let txs = user.recyclingTransactions || [];
+
+        if (currentFilter !== "ALL") {
+            txs = txs.filter(tx => tx.type === currentFilter || (currentFilter === "RECYCLING" && tx.type.includes("RECYCL")));
+        }
+
+        if (searchQuery) {
+            txs = txs.filter(tx => 
+                (tx.id && tx.id.toLowerCase().includes(searchQuery)) ||
+                (tx.category && tx.category.toLowerCase().includes(searchQuery)) ||
+                (tx.centerName && tx.centerName.toLowerCase().includes(searchQuery)) ||
+                (tx.description && tx.description.toLowerCase().includes(searchQuery))
+            );
+        }
+
+        if (txs.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="9" style="text-align:center; padding:36px; color:var(--text-secondary);">
+                        No transaction records match your filters.
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = txs.map((tx, idx) => {
+            const isPositive = tx.points > 0;
+            const ptsColor = isPositive ? "color: var(--green);" : "color: #ff5e7e;";
+            const ptsSign = isPositive ? "+" : "";
+            const valSign = tx.rewardValue > 0 ? "+₹" : "-₹";
+            const valAbs = Math.abs(tx.rewardValue).toFixed(2);
+
+            return `
+                <tr>
+                    <td style="font-family:monospace; color:var(--cyan); font-weight:700;">${tx.id}</td>
+                    <td style="font-size:0.82rem; color:var(--text-secondary);">${tx.date}</td>
+                    <td><strong>${tx.category || tx.type}</strong></td>
+                    <td style="font-size:0.85rem;">${tx.weight ? tx.weight + ' kg' : (tx.description || '—')}</td>
+                    <td style="${ptsColor} font-weight:750;">${ptsSign}${tx.points} MSTC</td>
+                    <td style="font-weight:700;">${valSign}${valAbs}</td>
+                    <td>
+                        <span class="blockchain-badge" style="cursor:pointer;" onclick="viewBlockDetails(${idx})">
+                            ${tx.blockHash || '0x4e78...d912'}
+                        </span>
+                    </td>
+                    <td><span class="badge-verified">${tx.status || 'Verified ✓'}</span></td>
+                    <td>
+                        <button class="outline-button btn-sm" onclick="viewBlockDetails(${idx})" style="padding:4px 10px; font-size:0.75rem;">
+                            Inspect ⛓
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    function viewBlockDetails(idx) {
+        const user = getCurrentUser();
+        const txs = user.recyclingTransactions || [];
+        const tx = txs[idx];
+        if (!tx) return;
+
+        document.getElementById("bmTxHash").textContent = tx.blockHash || "0x4e78c...d912";
+        document.getElementById("bmType").textContent = tx.type;
+        document.getElementById("bmDetails").textContent = `${tx.weight ? tx.weight + ' kg ' : ''}${tx.category || ''} (${tx.centerName || tx.description || 'Verified Partner'})`;
+        document.getElementById("bmPoints").textContent = `${tx.points > 0 ? '+' : ''}${tx.points} MSTC (₹${Math.abs(tx.rewardValue).toFixed(2)})`;
+
+        document.getElementById("blockModal").classList.add("active");
+    }
+
+    function closeBlockModal() {
+        document.getElementById("blockModal").classList.remove("active");
+    }
+
+    function exportTransactionsCSV() {
+        const user = getCurrentUser();
+        const txs = user.recyclingTransactions || [];
+        if (txs.length === 0) {
+            showToast("No transactions to export.", "info");
+            return;
+        }
+
+        let csv = "Transaction ID,Date,Type,Category,Weight (kg),MSTC Points,Reward Value (INR),Status\n";
+        txs.forEach(t => {
+            csv += `"${t.id}","${t.date}","${t.type}","${t.category || ''}","${t.weight || ''}","${t.points}","${t.rewardValue}","${t.status}"\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `Recycle2Earn_Transactions_${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+        showToast("Transaction CSV exported successfully!", "success");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("transactions");
+        renderTransactions();
+    });
+</script>
+</body>
+</html>

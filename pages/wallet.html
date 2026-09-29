@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSTC Rewards Wallet | Recycle2Earn</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow">DIGITAL REWARDS RAIL</span>
+            <h1 style="margin-top: 10px;">MSTC Rewards Wallet</h1>
+            <p class="muted">Manage your verified recycling points and converted utility reward value.</p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+            <a href="recharge.html" class="gradient-button btn-sm">Redeem Rewards →</a>
+            <a href="recycle.html" class="outline-button btn-sm">+ Recycle More</a>
+        </div>
+    </div>
+
+    <!-- MAIN WALLET OVERVIEW HERO -->
+    <section class="wallet-card" style="margin-bottom: 28px;">
+        <div style="display:grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 24px; align-items: center;">
+            <div>
+                <span class="balance-label">PRIMARY REWARD BALANCE</span>
+                <div class="wallet-points" id="walletTotalPoints">1,250 <span style="font-size: 1.5rem; color: var(--green);">MSTC</span></div>
+                
+                <div class="wallet-value" style="display: flex; align-items: center; gap: 12px; margin-top: 10px;">
+                    <span style="font-size: 1.5rem; color: #fff; font-weight: 750;" id="walletTotalValue">₹125.00</span>
+                    <span class="badge-verified">Platform Reward Value</span>
+                </div>
+
+                <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 14px;">
+                    Exchange Rule: <strong>100 MSTC Points = ₹10.00</strong> (1 MSTC = ₹0.10). Minimum redemption threshold: 1,000 MSTC (₹100).
+                </p>
+            </div>
+
+            <!-- LEDGER & WALLET DETAILS MINI-CARD -->
+            <div style="background: rgba(4, 15, 10, 0.7); border: 1px solid var(--border); border-radius: 18px; padding: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">ON-CHAIN WALLET ADDRESS</span>
+                    <span class="blockchain-badge">MST-POS-26</span>
+                </div>
+                <div style="font-family: monospace; color: var(--cyan); font-size: 0.95rem; word-break: break-all; margin-bottom: 16px;" id="walletAddressFull">
+                    0x7F9a92C812b1...3B4C-MSTC
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.82rem; border-top: 1px solid var(--border); padding-top: 12px;">
+                    <div>
+                        <span style="color:var(--text-secondary);">Block Height:</span>
+                        <strong style="display:block; color:#fff;">#148,291</strong>
+                    </div>
+                    <div>
+                        <span style="color:var(--text-secondary);">Network Fee:</span>
+                        <strong style="display:block; color:var(--green);">0.00 MSTC (Free)</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 BALANCE BREAKDOWN METRICS -->
+    <section class="stats-grid" style="margin-bottom: 28px;">
+        <div class="stat-card">
+            <div class="label">AVAILABLE POINTS</div>
+            <div class="number" id="cardAvailablePts" style="color: var(--green);">1,250</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Ready for immediate use</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">REWARD VALUE</div>
+            <div class="number" id="cardAvailableVal" style="color: var(--cyan);">₹125.00</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Appliable to bills/plans</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">LIFETIME EARNED</div>
+            <div class="number" id="cardLifetimePts">1,450</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Total verified recycling</p>
+        </div>
+
+        <div class="stat-card">
+            <div class="label">TOTAL REDEEMED</div>
+            <div class="number" id="cardRedeemedPts" style="color: #ff5e7e;">200</div>
+            <p style="font-size:0.78rem; color:var(--text-secondary); margin-top:4px;">Used for mobile recharges</p>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE CONVERTER & BLOCKCHAIN EXPLORER -->
+    <section class="grid grid-3" style="margin-bottom: 28px;">
+        <div class="card" style="grid-column: span 2;">
+            <div class="section-header" style="margin-bottom: 12px;">
+                <div>
+                    <h2>Instant Reward Value Calculator</h2>
+                    <p style="font-size: 0.85rem;">Simulate how much everyday utility value your MSTC Points generate.</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center;">
+                <div class="form-group" style="margin: 0;">
+                    <label>MSTC Points</label>
+                    <input type="number" id="calcPointsInput" value="1000" step="50" oninput="handlePointsToRupees()">
+                </div>
+
+                <div style="font-size: 1.5rem; color: var(--green); text-align: center; margin-top: 18px;">
+                    ⇄
+                </div>
+
+                <div class="form-group" style="margin: 0;">
+                    <label>Platform Reward Value (₹)</label>
+                    <input type="number" id="calcRupeesInput" value="100" step="5" oninput="handleRupeesToPoints()">
+                </div>
+            </div>
+
+            <div style="margin-top: 16px; padding: 12px; background: rgba(57, 217, 138, 0.08); border-radius: 12px; border: 1px solid rgba(57, 217, 138, 0.2); font-size: 0.85rem; color: #d4f4e2; display: flex; justify-content: space-between; align-items: center;">
+                <span>⚡ <strong>Did you know?</strong> Recycling 20 kg of metal or 7 kg of e-waste unlocks a ₹100 Mobile Recharge!</span>
+                <a href="recycle.html" style="color: var(--green); font-weight: 750;">Recycle Now →</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <span class="eyebrow">QUICK REDEMPTION</span>
+            <h3 style="margin: 12px 0 8px;">Ways to Use Points</h3>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+                <a href="recharge.html" class="outline-button btn-sm" style="justify-content:space-between;">
+                    <span>📱 Mobile & Data Recharge</span>
+                    <span style="color:var(--green);">From 200 Pts</span>
+                </a>
+                <a href="bills.html" class="outline-button btn-sm" style="justify-content:space-between;">
+                    <span>⚡ Electricity & DTH Bills</span>
+                    <span style="color:var(--cyan);">Apply Balance</span>
+                </a>
+                <a href="rewards.html" class="outline-button btn-sm" style="justify-content:space-between;">
+                    <span>🎁 Shopping Vouchers</span>
+                    <span style="color:#f5a623;">Amazon / Swiggy</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPLETE WALLET TRANSACTION HISTORY -->
+    <section class="card">
+        <div class="section-header" style="margin-bottom: 16px;">
+            <div>
+                <h2>Wallet Transaction Ledger</h2>
+                <p style="font-size: 0.85rem;">Complete record of all incoming recycling credits and outgoing reward payouts.</p>
+            </div>
+
+            <!-- FILTER TABS -->
+            <div class="tab-bar" style="border-bottom:none; margin:0;">
+                <button class="tab-btn active" onclick="filterTransactions('ALL', this)">All Activity</button>
+                <button class="tab-btn" onclick="filterTransactions('RECYCLING', this)">Recycling (+)</button>
+                <button class="tab-btn" onclick="filterTransactions('RECHARGE', this)">Recharges (-)</button>
+                <button class="tab-btn" onclick="filterTransactions('BILL_PAYMENT', this)">Bills (-)</button>
+                <button class="tab-btn" onclick="filterTransactions('VOUCHER', this)">Vouchers (-)</button>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID / Date</th>
+                        <th>Type & Description</th>
+                        <th>Weight / Plan</th>
+                        <th>Points Impact</th>
+                        <th>Reward Value</th>
+                        <th>On-Chain Hash</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="walletTxList">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10 Reward Conversion
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let activeFilter = "ALL";
+
+    function handlePointsToRupees() {
+        const pts = parseFloat(document.getElementById("calcPointsInput").value) || 0;
+        document.getElementById("calcRupeesInput").value = (pts / 10).toFixed(2);
+    }
+
+    function handleRupeesToPoints() {
+        const rs = parseFloat(document.getElementById("calcRupeesInput").value) || 0;
+        document.getElementById("calcPointsInput").value = Math.round(rs * 10);
+    }
+
+    function filterTransactions(type, btn) {
+        activeFilter = type;
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        if (btn) btn.classList.add("active");
+        renderTxTable();
+    }
+
+    function renderTxTable() {
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const tbody = document.getElementById("walletTxList");
+        let txs = user.recyclingTransactions || [];
+
+        if (activeFilter !== "ALL") {
+            txs = txs.filter(tx => tx.type === activeFilter || (activeFilter === "RECYCLING" && tx.type.includes("RECYCL")));
+        }
+
+        if (txs.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align:center; padding:32px; color:var(--text-secondary);">
+                        No transactions found for filter "${activeFilter}".
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = txs.map(tx => {
+            const isPositive = tx.points > 0;
+            const ptsColor = isPositive ? "color: var(--green);" : "color: #ff5e7e;";
+            const ptsSign = isPositive ? "+" : "";
+            const valSign = tx.rewardValue > 0 ? "+₹" : "-₹";
+            const valAbs = Math.abs(tx.rewardValue).toFixed(2);
+
+            return `
+                <tr>
+                    <td>
+                        <strong>${tx.id}</strong><br>
+                        <span style="font-size:0.75rem; color:var(--text-secondary);">${tx.date}</span>
+                    </td>
+                    <td>
+                        <strong>${tx.category || tx.type}</strong><br>
+                        <span style="font-size:0.75rem; color:var(--text-secondary);">${tx.centerName || tx.description || 'Verified Partner'}</span>
+                    </td>
+                    <td>${tx.weight ? tx.weight + ' kg' : (tx.description || '—')}</td>
+                    <td style="${ptsColor} font-weight:750;">${ptsSign}${tx.points} MSTC</td>
+                    <td style="font-weight:700;">${valSign}${valAbs}</td>
+                    <td><span class="blockchain-badge" title="${tx.blockHash || '0xMSTC'}">${tx.blockHash || '0x4e...d912'}</span></td>
+                    <td><span class="badge-verified">${tx.status || 'Verified ✓'}</span></td>
+                </tr>
+            `;
+        }).join("");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("wallet");
+
+        document.getElementById("walletTotalPoints").innerHTML = `${(user.mstcPoints || 0).toLocaleString()} <span style="font-size: 1.5rem; color: var(--green);">MSTC</span>`;
+        document.getElementById("walletTotalValue").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+        document.getElementById("walletAddressFull").textContent = user.walletAddress || "0x7F9a92C812b1...3B4C-MSTC";
+
+        document.getElementById("cardAvailablePts").textContent = (user.mstcPoints || 0).toLocaleString();
+        document.getElementById("cardAvailableVal").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+        document.getElementById("cardLifetimePts").textContent = (user.totalEarnedPoints || user.mstcPoints || 0).toLocaleString();
+        document.getElementById("cardRedeemedPts").textContent = (user.totalRedeemedPoints || 0).toLocaleString();
+
+        renderTxTable();
+    });
+</script>
+</body>
+</html>

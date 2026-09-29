@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walk & Earn (10,000 Steps) | Recycle2Earn – MSTC Rewards</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header class="navbar">
+    <!-- Dynamic Navbar -->
+</header>
+
+<main class="dashboard-container">
+    <!-- HEADER -->
+    <div class="dashboard-header">
+        <div>
+            <span class="eyebrow" style="color: var(--cyan); border-color: rgba(98, 220, 228, 0.3);">GREEN COMMUTE & MOBILITY</span>
+            <h1 style="margin-top: 10px;">Walk2Earn: 10,000 Steps Daily Rewards</h1>
+            <p class="muted">Walk instead of drive. Prevent tailpipe carbon emissions and earn verified MSTC Points every single day.</p>
+        </div>
+
+        <div class="user-chip">
+            <span class="user-pts">Balance: <strong id="walkUserPts">1,250</strong> MSTC</span>
+            <span class="user-val" id="walkUserVal">₹125.00</span>
+        </div>
+    </div>
+
+    <!-- MAIN STEP TRACKER HERO BANNER -->
+    <section class="wallet-card" style="margin-bottom: 28px; background: radial-gradient(ellipse at 85% 15%, rgba(98, 220, 228, 0.18), transparent 45%), linear-gradient(135deg, #102d20, #071610);">
+        <div style="display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 28px; align-items: center;">
+            <div>
+                <span class="balance-label" style="color: var(--cyan);">TODAY'S STEP PROGRESS</span>
+                
+                <div style="display: flex; align-items: baseline; gap: 12px; margin: 10px 0 4px;">
+                    <div style="font-size: clamp(2.8rem, 6vw, 4.4rem); font-weight: 800; color: #fff; letter-spacing: -0.04em;" id="todayStepCount">
+                        7,800
+                    </div>
+                    <span style="font-size: 1.5rem; color: var(--green); font-weight: 700;">/ 10,000 Steps</span>
+                </div>
+
+                <div style="height: 14px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin: 12px 0 16px; border: 1px solid var(--border);">
+                    <div id="stepProgressBar" style="width: 78%; height: 100%; background: linear-gradient(90deg, #39d98a, #22d9ff); border-radius: 999px; transition: width 400ms ease;"></div>
+                </div>
+
+                <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.88rem;">
+                    <div>
+                        <span style="color: var(--text-secondary); display: block; font-size: 0.75rem;">DISTANCE</span>
+                        <strong style="color: #fff; font-size: 1.15rem;" id="stepDistanceKm">5.9 km</strong>
+                    </div>
+                    <div style="padding-left: 14px; border-left: 1px solid var(--border);">
+                        <span style="color: var(--text-secondary); display: block; font-size: 0.75rem;">CALORIES</span>
+                        <strong style="color: #f5a623; font-size: 1.15rem;" id="stepCalories">312 kcal</strong>
+                    </div>
+                    <div style="padding-left: 14px; border-left: 1px solid var(--border);">
+                        <span style="color: var(--text-secondary); display: block; font-size: 0.75rem;">CO₂ PREVENTED</span>
+                        <strong style="color: var(--green); font-size: 1.15rem;" id="stepCo2Saved">1.44 kg</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INTERACTIVE STEP CONTROLS -->
+            <div style="background: rgba(4, 15, 10, 0.75); border: 1px solid var(--border); border-radius: 20px; padding: 22px; text-align: center;">
+                <span style="font-size: 0.78rem; color: var(--text-secondary); font-weight: 700; text-transform: uppercase;">SIMULATED SENSORS / HEALTH SYNC</span>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
+                    <button type="button" class="gradient-button" onclick="simulateStepIncrement(1000)" style="justify-content: center; width: 100%; font-size: 0.95rem;">
+                        🚶 Walk +1,000 Steps (Simulate)
+                    </button>
+                    <button type="button" class="outline-button" onclick="syncFullHealthData()" style="justify-content: center; width: 100%; font-size: 0.88rem; border-color: rgba(98, 220, 228, 0.4);">
+                        📲 Sync 10,000 Steps (Google Fit / Apple Health)
+                    </button>
+                </div>
+                
+                <span style="display: block; font-size: 0.72rem; color: var(--text-secondary); margin-top: 10px;">
+                    Zero Vehicle Carbon Emissions • Verified on MST Ledger
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 STEP MILESTONE TIERS -->
+    <div class="card" style="margin-bottom: 28px;">
+        <div class="section-header" style="margin-bottom: 20px;">
+            <div>
+                <h2>Daily Milestone Rewards (10,000 Steps Target)</h2>
+                <p style="font-size: 0.85rem;">Hit each milestone throughout the day to claim your instant MSTC Points.</p>
+            </div>
+            <span class="badge-verified" id="tiersClaimedBadge">2 / 4 Claimed Today</span>
+        </div>
+
+        <div class="grid grid-4" id="stepTiersContainer">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </div>
+
+    <!-- WEEKLY ACTIVITY CHART & ECO BENEFIT INFO -->
+    <div class="grid grid-3">
+        <!-- CHART (2 COLS) -->
+        <div class="card" style="grid-column: span 2;">
+            <span class="eyebrow">7-DAY ACTIVITY HISTORY</span>
+            <h3 style="margin: 10px 0 16px;">Weekly Walking Performance</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="weeklyStepChart"></canvas>
+            </div>
+        </div>
+
+        <!-- INFO SIDEBAR (1 COL) -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div class="card">
+                <span class="eyebrow" style="color: var(--green);">WHY 10,000 STEPS?</span>
+                <h3 style="margin: 12px 0 8px;">Health + Carbon Zero</h3>
+                <p class="muted" style="font-size: 0.85rem; line-height: 1.7;">
+                    Walking 10,000 steps (~7.5 km) replaces an average short commute, directly avoiding <strong>~1.85 kg of tailpipe CO₂</strong> and burning ~400 active calories.
+                </p>
+                <div style="margin-top: 14px; padding: 12px; background: rgba(57, 217, 138, 0.08); border: 1px solid rgba(57, 217, 138, 0.25); border-radius: 12px; font-size: 0.82rem;">
+                    🪙 <strong>10,000 Steps = +75 MSTC Points</strong> (₹7.50 Reward Value added to your wallet)!
+                </div>
+            </div>
+
+            <div class="card">
+                <span class="eyebrow" style="color: var(--cyan);">COMBINED ECO SCORE</span>
+                <h3 style="margin: 12px 0 8px;">Recycle + Walk Together</h3>
+                <p class="muted" style="font-size: 0.85rem;">
+                    Walk to your nearest collection center with your sorted waste to earn double rewards!
+                </p>
+                <a href="centers.html" class="outline-button btn-sm" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    📍 Find Walkable Hubs →
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- STEP REWARD CELEBRATION MODAL -->
+<div class="modal-overlay" id="stepRewardModal">
+    <div class="modal-box" style="text-align: center;">
+        <div style="width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(145deg, #22d9ff, #39d98a); color: #051d13; display: grid; place-items: center; font-size: 2.2rem; margin: 0 auto 16px; box-shadow: 0 0 35px rgba(34, 217, 255, 0.5);">
+            👟
+        </div>
+
+        <span class="eyebrow" style="background: rgba(34, 217, 255, 0.15); color: var(--cyan);">MILESTONE UNLOCKED!</span>
+        <h2 style="margin: 14px 0 4px; font-size: 1.9rem; color: #fff;" id="modalStepPointsTitle">
+            +75 MSTC Points Credited
+        </h2>
+        <p style="color: var(--green); font-weight: 700; font-size: 1.1rem; margin-bottom: 20px;" id="modalStepRupeesVal">
+            Added ₹7.50 Platform Reward Value
+        </p>
+
+        <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 16px; padding: 18px; margin-bottom: 24px; text-align: left; font-size: 0.85rem;">
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Milestone Tier:</span>
+                <strong id="modalTierTitle" style="color: #fff;">Gold Green Champion (10,000 Steps)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Transaction Hash:</span>
+                <span style="font-family: monospace; color: var(--cyan);" id="modalStepTxHash">0x7a82...99fd</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom: 8px;">
+                <span class="muted">Tailpipe CO₂ Diverted:</span>
+                <strong style="color: var(--green);" id="modalStepCo2">+1.85 kg CO₂</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+                <span class="muted">New Wallet Balance:</span>
+                <strong style="color: var(--text-primary);" id="modalStepNewBal">1,325 MSTC (₹132.50)</strong>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:12px;">
+            <button class="gradient-button" onclick="closeStepModal()" style="flex:1; justify-content:center;">Awesome! Keep Walking</button>
+            <a href="wallet.html" class="outline-button" style="flex:1; justify-content:center;">View Wallet</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="container" style="text-align: center; font-size: 0.85rem; color: var(--text-secondary);">
+        Recycle2Earn Prototype Platform © 2026 • 100 MSTC = ₹10 • Walk2Earn Sustainability Feature
+    </div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+<script>
+    let stepChart = null;
+
+    function renderWalkPage() {
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const steps = user.todaySteps || 0;
+        const target = 10000;
+        const pct = Math.min(100, Math.round((steps / target) * 100));
+
+        // Top Banner stats
+        document.getElementById("walkUserPts").textContent = (user.mstcPoints || 0).toLocaleString();
+        document.getElementById("walkUserVal").textContent = `₹${(user.rewardValue || (user.mstcPoints/10)).toFixed(2)}`;
+
+        document.getElementById("todayStepCount").textContent = steps.toLocaleString();
+        document.getElementById("stepProgressBar").style.width = `${pct}%`;
+
+        // Distances & Calories
+        const km = (steps * 0.00076).toFixed(1);
+        const kcal = Math.round(steps * 0.04);
+        const co2 = (steps * 0.000185).toFixed(2);
+
+        document.getElementById("stepDistanceKm").textContent = `${km} km`;
+        document.getElementById("stepCalories").textContent = `${kcal} kcal`;
+        document.getElementById("stepCo2Saved").textContent = `${co2} kg`;
+
+        // Render Tiers
+        renderStepTiers(user);
+
+        // Render Chart
+        renderWeeklyChart(user);
+    }
+
+    function renderStepTiers(user) {
+        const container = document.getElementById("stepTiersContainer");
+        const tiers = typeof STEP_REWARD_TIERS !== "undefined" ? STEP_REWARD_TIERS : [];
+        const claimed = user.claimedStepTiers || [];
+        const currentSteps = user.todaySteps || 0;
+
+        let claimedCount = 0;
+
+        container.innerHTML = tiers.map(tier => {
+            const isReached = currentSteps >= tier.steps;
+            const isClaimed = claimed.includes(tier.id);
+            if (isClaimed) claimedCount++;
+
+            const cardBorder = tier.isMain ? "border-color: rgba(98, 220, 228, 0.45); background: linear-gradient(145deg, rgba(16, 44, 32, 0.9), rgba(8, 22, 16, 0.9));" : "";
+
+            return `
+                <div class="card" style="display:flex; flex-direction:column; justify-content:space-between; ${cardBorder}">
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px;">
+                            <span style="font-size: 2rem;">${tier.icon}</span>
+                            <span class="${isClaimed ? 'badge-verified' : isReached ? 'badge-verified' : 'badge-pending'}">
+                                ${isClaimed ? '✓ Claimed' : isReached ? 'Ready!' : 'Locked'}
+                            </span>
+                        </div>
+
+                        <span style="font-size:0.75rem; color:var(--cyan); font-weight:750; text-transform:uppercase;">${tier.badge}</span>
+                        <h3 style="margin: 4px 0 6px; font-size: 1.1rem; color:#fff;">${tier.steps.toLocaleString()} Steps</h3>
+                        <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:12px;">
+                            ~${tier.kmApprox} km • Saves ${tier.co2SavedKg} kg CO₂
+                        </p>
+                    </div>
+
+                    <div style="border-top: 1px solid var(--border); padding-top: 12px; margin-top: 8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                            <span style="font-size:0.8rem; color:var(--text-secondary);">Reward:</span>
+                            <strong style="color:var(--green); font-size:1.1rem;">+${tier.points} MSTC (₹${tier.rupees.toFixed(2)})</strong>
+                        </div>
+
+                        ${isClaimed ? `
+                            <button type="button" class="outline-button btn-sm" disabled style="width:100%; justify-content:center; opacity:0.6;">
+                                ✓ Claimed Today
+                            </button>
+                        ` : isReached ? `
+                            <button type="button" class="gradient-button btn-sm" onclick="claimTierReward('${tier.id}')" style="width:100%; justify-content:center;">
+                                🎁 Claim +${tier.points} MSTC
+                            </button>
+                        ` : `
+                            <button type="button" class="outline-button btn-sm" disabled style="width:100%; justify-content:center; opacity:0.5;">
+                                🔒 Walk ${(tier.steps - currentSteps).toLocaleString()} more
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+        document.getElementById("tiersClaimedBadge").textContent = `${claimedCount} / ${tiers.length} Claimed Today`;
+    }
+
+    function renderWeeklyChart(user) {
+        const ctx = document.getElementById("weeklyStepChart");
+        if (!ctx) return;
+
+        const history = user.weeklyStepHistory || [6200, 8400, 10200, 5400, 9100, 11000, user.todaySteps || 7800];
+        // Replace last element with today's live steps
+        history[history.length - 1] = user.todaySteps || 7800;
+
+        if (stepChart) stepChart.destroy();
+        stepChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Today (Sun)'],
+                datasets: [
+                    {
+                        label: 'Steps Walked',
+                        data: history,
+                        backgroundColor: history.map((s, idx) => idx === 6 ? '#22d9ff' : s >= 10000 ? '#39d98a' : 'rgba(57,217,138,0.5)'),
+                        borderRadius: 8
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#9aaba2' },
+                        suggestedMax: 12000
+                    },
+                    x: { grid: { display: false }, ticks: { color: '#9aaba2' } }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+
+    function simulateStepIncrement(count) {
+        const res = addWalkingSteps(count);
+        if (res.success) {
+            showToast(`+${count.toLocaleString()} steps logged! Total today: ${res.todaySteps.toLocaleString()}`, "success");
+            renderWalkPage();
+        }
+    }
+
+    function syncFullHealthData() {
+        const user = getCurrentUser();
+        if (!user) return;
+        const diff = Math.max(0, 10000 - (user.todaySteps || 0));
+        if (diff > 0) {
+            addWalkingSteps(diff);
+        }
+        showToast("📱 Synced with Health Pedometer: 10,000 Steps Target Met!", "success");
+        renderWalkPage();
+    }
+
+    function claimTierReward(tierId) {
+        const res = claimStepRewardTier(tierId);
+        if (!res.success) {
+            showToast(res.message, "error");
+            return;
+        }
+
+        // Show celebration modal
+        document.getElementById("modalStepPointsTitle").textContent = `+${res.pointsEarned} MSTC Points Credited`;
+        document.getElementById("modalStepRupeesVal").textContent = `Added ₹${res.rewardVal.toFixed(2)} Platform Reward Value`;
+        document.getElementById("modalTierTitle").textContent = res.tier.title;
+        document.getElementById("modalStepTxHash").textContent = res.transaction.blockHash;
+        document.getElementById("modalStepCo2").textContent = `+${res.tier.co2SavedKg} kg CO₂`;
+        document.getElementById("modalStepNewBal").textContent = `${res.totalBalance.toLocaleString()} MSTC (₹${res.totalRewardValue.toFixed(2)})`;
+
+        document.getElementById("stepRewardModal").classList.add("active");
+        showToast(`🎉 Claimed +${res.pointsEarned} MSTC for ${res.tier.steps.toLocaleString()} Steps!`, "success");
+        renderWalkPage();
+    }
+
+    function closeStepModal() {
+        document.getElementById("stepRewardModal").classList.remove("active");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const user = checkAuth(true);
+        if (!user) return;
+
+        renderNavbar("walk");
+        renderWalkPage();
+    });
+</script>
+</body>
+</html>
